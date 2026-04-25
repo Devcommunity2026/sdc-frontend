@@ -6,6 +6,7 @@ import ThemeProvider from './contexts/ThemeProvider';
 
 import Home from './pages/Home';
 import About from './pages/About';
+import Team from './pages/Team';
 import Login from './pages/Login';
 import Blog from './pages/Blog';
 import Domains from './pages/Domains';
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" >
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="team" element={<Team />} />
             <Route path="login" element={<Login />} />
             <Route path="blog" element={<Blog />} />
             <Route path="domains" element={<Domains />} />
