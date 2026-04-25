@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-:root {
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
     --color-dark-nav: hsl(230 25% 8%);
 
     --color-dark-background: hsl(230 25% 8%);
