@@ -15,3 +15,33 @@
     --color-primary: hsl(255 70% 55%);
     --color-primary-foreground: hsl(0 0% 100%);
 }
+/* Login Page Styles */
+
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f6f8;
+  }
+  
+  .login-form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-form h2 {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .login-input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+  }
