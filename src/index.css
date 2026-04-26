@@ -4,44 +4,105 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-dark-nav: hsl(230 25% 8%);
+  /* ================= DARK COLORS ================= */
+  --color-dark-background: hsl(230 25% 8%);
+  --color-dark-foreground: hsl(220 20% 92%);
 
-    --color-dark-background: hsl(230 25% 8%);
-    --color-dark-foreground: hsl(220 20% 92%);
+  --color-dark-card: hsl(230 22% 12%);
+  --color-dark-card-foreground: hsl(220 20% 92%);
 
-    --color-background: hsl(220 20% 97%);
-    --color-foreground: hsl(230 25% 12%);
+  --color-dark-muted: hsl(230 15% 18%);
+  --color-dark-muted-foreground: hsl(220 10% 55%);
 
-    --color-primary: hsl(255 70% 55%);
-    --color-primary-foreground: hsl(0 0% 100%);
+  --color-dark-primary: hsl(255 70% 60%);
+  --color-dark-primary-foreground: hsl(230 25% 8%);
+
+  --color-dark-secondary: hsl(230 18% 16%);
+  --color-dark-secondary-foreground: hsl(220 15% 85%);
+
+  --color-dark-accent: hsl(270 65% 55%);
+  --color-dark-accent-foreground: hsl(220 20% 95%);
+
+  --color-dark-border: hsl(230 15% 20%);
+  --color-dark-input: hsl(230 15% 20%);
+  --color-dark-ring: hsl(255 70% 60%);
+
+  /* ================= LIGHT COLORS ================= */
+  --color-background: hsl(220 20% 97%);
+  --color-foreground: hsl(230 25% 12%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(230 25% 12%);
+
+  --color-muted: hsl(220 14% 92%);
+  --color-muted-foreground: hsl(220 10% 40%);
+
+  --color-primary: hsl(255 70% 55%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  --color-secondary: hsl(220 14% 92%);
+  --color-secondary-foreground: hsl(230 18% 30%);
+
+  --color-accent: hsl(270 60% 50%);
+  --color-accent-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(220 13% 87%);
+  --color-input: hsl(220 13% 87%);
+  --color-ring: hsl(255 70% 55%);
 }
+
 /* Login Page Styles */
 
 .login-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f6f8;
-  }
-  
-  .login-form {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .login-form h2 {
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  .login-input {
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-  }
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f8;
+}
+
+.login-form {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.login-input {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.header {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+
+  background-size: 20px 20px;
+}
+
+.darkHeader {
+  background-color: var(--color-dark-background);
+
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+
+  background-size: 20px 20px;
+}
+
+.gradient {
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

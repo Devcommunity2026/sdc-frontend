@@ -23,7 +23,6 @@ import Register from "./pages/Register";
 import Verify from "./pages/Verify";
 
 function App() {
-  const [isDark, setIsDark] = useState(false); // ✅ FIXED
 
   return (
     <BrowserRouter>
