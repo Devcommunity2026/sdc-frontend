@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DomainCard from "./components/ui/DomainCard";
 import Footer from "./components/Footer";
-import Header from "./components/Header";
+
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -28,7 +28,7 @@ function App() {
         <Layout>
 
           {/* Header */}
-          <Header />
+          
 
        
              

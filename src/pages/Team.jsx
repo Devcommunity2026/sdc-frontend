@@ -1,5 +1,7 @@
 import React from "react";
 import TeamCard from "../components/ui/TeamCard";
+import TeamHeader from "../components/header/team";
+
 
 const Team = () => {
   const teamMembers = [
@@ -30,6 +32,10 @@ const Team = () => {
   ];
 
   return (
+
+    <div> 
+      <TeamHeader/>
+    
     <div className="pt-24 px-6 md:px-12">
 
       {/* Heading */}
@@ -44,6 +50,7 @@ const Team = () => {
         ))}
       </div>
 
+    </div>
     </div>
   );
 };
