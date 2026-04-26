@@ -8,7 +8,7 @@ const domains = [
     icon: "Globe",
     color: "primary",
   },
-   {
+  {
     id: "2",
     title: "AI / ML",
     description: "Explore machine learning and AI concepts",
@@ -27,10 +27,12 @@ const domains = [
 const Domains = () => {
   return (
     <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  {domains.map((domain, index) => (
-    <DomainCard key={domain.id} domain={domain} index={index} />
-  ))}
-</div>
+      {
+        domains.map((domain, index) => (
+          <DomainCard key={domain.id} domain={domain} index={index} />
+        ))
+      }
+    </div>
   )
 }
 
