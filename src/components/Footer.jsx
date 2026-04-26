@@ -1,6 +1,64 @@
 import React from "react";
 
 const Footer = () => {
+  const styles = {
+    footer: {
+      background: "radial-gradient(circle, #0f172a, #020617)",
+      color: "#cbd5f5",
+      padding: "40px",
+    },
+    topStrip: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottom: "1px solid #1e293b",
+      paddingBottom: "20px",
+      marginBottom: "30px",
+    },
+    button: {
+      padding: "10px 20px",
+      background: "#3b82f6",
+      color: "#fff",
+      border: "none",
+      borderRadius: "20px",
+      cursor: "pointer",
+    },
+    container: {
+      display: "grid",
+      gridTemplateColumns: "repeat(4,1fr)",
+      gap: "100px",
+    },
+    logo: {
+      color: "#3b82f6",
+    },
+    text: {
+      fontSize: "14px",
+      marginTop: "10px",
+    },
+    socials: {
+      display: "flex",
+      gap: "10px",
+      marginTop: "10px",
+    },
+    heading: {
+      color: "#fff",
+      marginBottom: "10px",
+    },
+    link: {
+      fontSize: "14px",
+      margin: "5px 0",
+      cursor: "pointer",
+    },
+    bottom: {
+      borderTop: "1px solid #1e293b",
+      marginTop: "30px",
+      paddingTop: "15px",
+      display: "flex",
+      justifyContent: "space-between",
+      fontSize: "12px",
+    },
+  };
+
   return (
     <footer style={styles.footer}>
 
@@ -37,7 +95,7 @@ const Footer = () => {
         {/* QUICK LINKS */}
         <div>
           <h4 style={styles.heading}>Quick Links</h4>
-          {["About","Domains","Events","Projects","Blogs","Career"].map((item)=>(
+          {["About", "Domains", "Events", "Projects", "Blogs", "Career"].map((item) => (
             <p key={item} style={styles.link}>{item}</p>
           ))}
         </div>
@@ -45,7 +103,7 @@ const Footer = () => {
         {/* DOMAINS */}
         <div>
           <h4 style={styles.heading}>Domains</h4>
-          {["Web Development","AI / ML","Cybersecurity","Mobile Development","Open Source"].map((item)=>(
+          {["Web Development", "AI / ML", "Cybersecurity", "Mobile Development", "Open Source"].map((item) => (
             <p key={item} style={styles.link}>• {item}</p>
           ))}
         </div>
@@ -70,62 +128,5 @@ const Footer = () => {
   );
 };
 
-const styles = {
-  footer: {
-    background: "radial-gradient(circle, #0f172a, #020617)",
-    color: "#cbd5f5",
-    padding: "40px",
-  },
-  topStrip: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid #1e293b",
-    paddingBottom: "20px",
-    marginBottom: "30px",
-  },
-  button: {
-    padding: "10px 20px",
-    background: "#3b82f6",
-    color: "#fff",
-    border: "none",
-    borderRadius: "20px",
-    cursor: "pointer",
-  },
-  container: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4,1fr)",
-    gap: "100px",
-  },
-  logo: {
-    color: "#3b82f6",
-  },
-  text: {
-    fontSize: "14px",
-    marginTop: "10px",
-  },
-  socials: {
-    display: "flex",
-    gap: "10px",
-    marginTop: "10px",
-  },
-  heading: {
-    color: "#fff",
-    marginBottom: "10px",
-  },
-  link: {
-    fontSize: "14px",
-    margin: "5px 0",
-    cursor: "pointer",
-  },
-  bottom: {
-    borderTop: "1px solid #1e293b",
-    marginTop: "30px",
-    paddingTop: "15px",
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "12px",
-  },
-};
 
 export default Footer;

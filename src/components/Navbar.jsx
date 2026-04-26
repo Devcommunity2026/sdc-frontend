@@ -23,7 +23,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full fixed left-0 top-0 h-20 shadow-md flex items-center justify-between px-15 
-     dark:bg-dark-nav transition-all ease-in duration-100 text-foreground dark:text-dark-foreground ">
+     dark:bg-dark-nav transition-all ease-in duration-100 text-foreground dark:text-dark-foreground backdrop-blur-3xl z-50">
 
       {/* Logo */}
       <img src={theme !== "dark" ? logo : darkLogo} alt="logo" className="h-10" />
