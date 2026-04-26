@@ -1,6 +1,6 @@
 import React from "react";
 import DomainCard from "../components/ui/DomainCard";
-import DomainsHeader from "../components/header/domains"; 
+import Header from "../components/Header";
 const domains = [
   {
     id: "1",
@@ -28,7 +28,10 @@ const domains = [
 const Domains = () => {
   return (
     <div>
-      <DomainsHeader />
+      <Header
+        heading1={'Our '}
+        heading2={'Domains'}
+        subtext={`Choose your area of interest and dive deep into the technology that excites you.`} />
 
       <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {domains.map((domain, index) => (

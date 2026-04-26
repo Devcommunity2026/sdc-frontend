@@ -1,11 +1,13 @@
 import React from 'react'
-import BlogHeader from "../components/header/blog";
-
+import Header from '../components/Header'
 
 const Blog = () => {
   return (
     <div>
-      <BlogHeader/>
+      <Header
+        heading1={'Blogs & '}
+        heading2={'Resources'}
+        subtext={``} />
     </div>
   )
 }
