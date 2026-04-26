@@ -1,65 +1,37 @@
 import { motion } from "framer-motion";
-import { Globe, Brain, Shield } from "lucide-react";
-import { lightTheme, darkTheme } from "./theme";
+import { Globe, Brain, Shield, Smartphone, GitBranch } from "lucide-react";
 
-const DomainCard = ({ title, description, icon, isDark = false }) => {
-  const theme = isDark ? darkTheme : lightTheme;
+const iconMap = { Globe, Brain, Shield, Smartphone, GitBranch };
 
-  const icons = {
-    web: Globe,
-    ai: Brain,
-    security: Shield,
-  };
-
-  const Icon = icons[icon] || Globe;
+const DomainCard = ({ domain, index }) => {
+  const Icon = iconMap[domain.icon] || Globe;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{
-        y: -10,
-        boxShadow: `0px 15px 30px ${theme.shadow}`,
-      }}
-      style={{
-        background: theme.gradientBg,
-        border: `1px solid ${theme.border}`,
-        padding: "24px",
-        borderRadius: "16px",
-        cursor: "pointer",
-        transition: "0.3s",
-      }}
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05, y: -5 }}
+      whileTap={{ scale: 0.97 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.2 }}
+      className="group bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all cursor-default"
     >
-      {/* Icon box */}
       <div
-        style={{
-          width: "50px",
-          height: "50px",
-          borderRadius: "12px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "15px",
-          background: theme.iconBg,
-          color: theme.iconColor,
-        }}
+        className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${
+          domain.color === "purple"
+            ? "bg-purple-100 text-purple-600 group-hover:bg-purple-200"
+            : "bg-blue-100 text-blue-600 group-hover:bg-blue-200"
+        }`}
       >
         <Icon size={26} />
       </div>
 
-      <h3 style={{ marginBottom: "8px", fontSize: "18px", color: theme.text }}>
-        {title}
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        {domain.title}
       </h3>
 
-      <p
-        style={{
-          color: theme.text,
-          fontSize: "14px",
-          lineHeight: "1.5",
-        }}
-      >
-        {description}
+      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        {domain.description}
       </p>
     </motion.div>
   );
