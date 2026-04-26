@@ -1,5 +1,6 @@
-import React from 'react'
+import React from "react";
 import DomainCard from "../components/ui/DomainCard";
+import DomainsHeader from "../components/header/domains"; 
 const domains = [
   {
     id: "1",
@@ -22,18 +23,20 @@ const domains = [
     icon: "Shield",
     color: "primary",
   },
-  // you can add more later
 ];
+
 const Domains = () => {
   return (
-    <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {
-        domains.map((domain, index) => (
-          <DomainCard key={domain.id} domain={domain} index={index} />
-        ))
-      }
-    </div>
-  )
-}
+    <div>
+      <DomainsHeader />
 
-export default Domains
+      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {domains.map((domain, index) => (
+          <DomainCard key={domain.id} domain={domain} index={index} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Domains; 

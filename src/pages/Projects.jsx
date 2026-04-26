@@ -1,9 +1,11 @@
 import React from 'react'
+import ProjectsHeader from "../components/header/projects";
+
 
 const Projects = () => {
     return (
         <div>
-            Projects
+           <ProjectsHeader/>
         </div>
     )
 }
