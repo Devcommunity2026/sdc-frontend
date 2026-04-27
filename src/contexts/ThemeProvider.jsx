@@ -17,9 +17,13 @@ const ThemeProvider = ({ children }) => {
 
     useEffect(() => {
         const root = document.documentElement;
-        root.classList.remove("dark", "light");
-        root.classList.add(theme);
-    }, [theme])
+      
+        if (theme === "dark") {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+      }, [theme]);
 
 
     return (

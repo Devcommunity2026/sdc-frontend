@@ -1,23 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import navData from '../data/navData'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Sun, Moon } from 'lucide-react'
 import darkLogo from '../assets/logo-white.png'
 import logo from '../assets/logo.png'
 import { themeContext } from '../contexts/ThemeProvider'
-import { useContext } from 'react'
 import Button from './ui/Button'
 
 const Navbar = () => {
+
   const location = useLocation()
   const navigate = useNavigate()
   const { theme, setTheme } = useContext(themeContext)
+
+  // ✅ get login state INSIDE component
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+  // ✅ logout function
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login");
+  };
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const handelLogin = () => {
+  const handleLogin = () => {
     navigate('/login')
   }
 
@@ -36,7 +45,7 @@ const Navbar = () => {
               key={element.name}
               to={element.path}
               className={`px-4 py-2 rounded-lg text-sm font-medium 
-                 ${location.pathname == element.path ? 'bg-blue-200' : 'hover:bg-black/10'} 
+              ${location.pathname === element.path ? 'bg-primary/20 text-primary' : 'hover:bg-black/10'} 
               transition-all ease-in duration-100`}
             >
               {element.name}
@@ -45,14 +54,28 @@ const Navbar = () => {
         }
       </div>
 
-      {/* Login and theme button */}
+      {/* Right side */}
       <div className='flex items-center justify-center gap-5'>
-        <button className=' rounded-md bg-background dark:bg-dark-background px-3 py-3' onClick={toggleTheme}>
-          {(theme === 'dark') ? <Sun size={18} /> : <Moon size={18} />}
+
+        {/* Theme Toggle */}
+        <button 
+          className='rounded-md bg-background dark:bg-dark-background px-3 py-3' 
+          onClick={toggleTheme}
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
-        <Button variant="default" size="default" className="w-full" onClick={() => handelLogin()} >
-          Login
-        </Button>
+
+        {/* Login / Logout */}
+        {isLoggedIn ? (
+          <Button onClick={handleLogout}>
+            Logout
+          </Button>
+        ) : (
+          <Button onClick={handleLogin}>
+            Login
+          </Button>
+        )}
+
       </div>
     </nav>
   )

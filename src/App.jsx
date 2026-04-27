@@ -16,6 +16,7 @@ import Events from './pages/Events';
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
 import Verify from "./pages/Verify";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
@@ -28,14 +29,32 @@ function App() {
     </ProtectedRoute>} />
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
-            <Route path="team" element={<Team />} />
-            <Route path="login" element={<Login />} />
+            <Route path="/team" element={
+    <ProtectedRoute>
+      <Team />
+    </ProtectedRoute>
+  } />
+           <Route
+  path="/login"
+  element={
+    <PublicRoute>
+      <Login />
+    </PublicRoute>
+  }
+/>
             <Route path="blog" element={<Blog />} />
             <Route path="domains" element={<Domains />} />
             <Route path="careers" element={<Careers />} />
             <Route path="projects" element={<Projects />} />
             <Route path="events" element={<Events />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+  path="/register"
+  element={
+    <PublicRoute>
+      <Register />
+    </PublicRoute>
+  }
+/>
             <Route path="/verify" element={<Verify />} />
         </Routes>
         </Layout>
