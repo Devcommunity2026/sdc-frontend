@@ -1,5 +1,6 @@
-import React from 'react'
+import React from "react";
 import DomainCard from "../components/ui/DomainCard";
+import Header from "../components/Header";
 const domains = [
   {
     id: "1",
@@ -8,7 +9,7 @@ const domains = [
     icon: "Globe",
     color: "primary",
   },
-   {
+  {
     id: "2",
     title: "AI / ML",
     description: "Explore machine learning and AI concepts",
@@ -22,16 +23,23 @@ const domains = [
     icon: "Shield",
     color: "primary",
   },
-  // you can add more later
 ];
+
 const Domains = () => {
   return (
-    <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  {domains.map((domain, index) => (
-    <DomainCard key={domain.id} domain={domain} index={index} />
-  ))}
-</div>
-  )
-}
+    <div>
+      <Header
+        heading1={'Our '}
+        heading2={'Domains'}
+        subtext={`Choose your area of interest and dive deep into the technology that excites you.`} />
 
-export default Domains
+      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {domains.map((domain, index) => (
+          <DomainCard key={domain.id} domain={domain} index={index} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Domains; 

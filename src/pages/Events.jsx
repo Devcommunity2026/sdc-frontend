@@ -1,5 +1,9 @@
 import React from 'react'
 import EventCard from "../components/ui/EventCard";
+import { div } from 'framer-motion/client';
+import Header from '../components/Header';
+
+
 const eventsData = [
   {
     id: "1",
@@ -18,14 +22,28 @@ const eventsData = [
     registrationLink: "#",
   },
 ];
+
+
 const Events = () => {
   return (
-    <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  {eventsData.map((event, index) => (
-    <EventCard key={event.id} event={event} index={index} />
-  ))}
-</div>
+
+    <div>
+      <Header
+        heading1={'Upcoming  '}
+        heading2={'Events'}
+        subtext={``} />
+      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+
+        {eventsData.map((event, index) => (
+          <EventCard key={event.id} event={event} index={index} />
+        ))}
+      </div>
+    </div>
+
+
   )
 }
+
 
 export default Events

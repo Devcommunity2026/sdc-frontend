@@ -1,8 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import './App.css';
+import { useState } from "react";
+import DomainCard from "./components/ui/DomainCard";
+import Footer from "./components/Footer";
 
-import Layout from './components/Layout';
-import ThemeProvider from './contexts/ThemeProvider';
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+
+import Layout from "./components/Layout";
+import ThemeProvider from "./contexts/ThemeProvider";
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -19,6 +24,7 @@ import Verify from "./pages/Verify";
 import PublicRoute from "./components/PublicRoute";
 
 function App() {
+
   return (
     <BrowserRouter>
       <ThemeProvider>
