@@ -121,7 +121,7 @@ const Footer = () => {
       {/* BOTTOM */}
       <div style={styles.bottom}>
         <p>© {new Date().getFullYear()} Developers' Community</p>
-        <p>Made with❤️— Break · Build · Merge</p>
+        <p>Made with— Break · Build · Merge</p>
       </div>
 
     </footer>
