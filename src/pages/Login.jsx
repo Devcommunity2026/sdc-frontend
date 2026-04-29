@@ -20,28 +20,27 @@ const Login = () => {
       );
 
       if (res.data.success) {
-        localStorage.setItem("isLoggedIn", "true"); // ✅ ADD THIS
+        localStorage.setItem("isLoggedIn", "true");
         navigate("/");
       }
-
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-24 
-    bg-background dark:bg-dark-background">
+    <div className="min-h-screen flex items-center justify-center px-4
+bg-background dark:bg-dark-background transition-colors">
 
-      <div className="w-[360px] p-7 rounded-2xl shadow-xl 
-      bg-white bg-background dark:bg-dark-background border border-black/5 dark:border-white/10">
+      <div className="w-full max-w-[400px] p-6 sm:p-7 rounded-2xl shadow-xl 
+      bg-white dark:bg-dark-background border border-black/5 dark:border-white/10">
 
-        <h2 className="text-2xl font-semibold text-center 
-        text-foreground dark:text-dark-foreground mb-6">
-          Welcome Back 
+        <h2 className="text-xl sm:text-2xl font-semibold text-center 
+        text-foreground dark:text-dark-foreground mb-5 sm:mb-6">
+          Welcome Back
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
 
           {/* Email */}
           <input
@@ -50,9 +49,10 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="p-3 rounded-lg border 
-            bg-background dark:bg-dark-background 
-            text-foreground dark:text-dark-foreground
-            outline-none focus:ring-2 focus:ring-primary"
+            bg-white dark:bg-[#1a1a1a]
+            text-black dark:text-white
+            outline-none focus:ring-2 focus:ring-primary
+            placeholder:text-gray-400"
           />
 
           {/* Password */}
@@ -62,9 +62,10 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="p-3 rounded-lg border 
-            bg-background dark:bg-dark-background 
-            text-foreground dark:text-dark-foreground
-            outline-none focus:ring-2 focus:ring-primary"
+            bg-white dark:bg-[#1a1a1a]
+            text-black dark:text-white
+            outline-none focus:ring-2 focus:ring-primary
+            placeholder:text-gray-400"
           />
 
           {/* Login Button */}
@@ -74,8 +75,8 @@ const Login = () => {
 
         </form>
 
-        {/* Register Section */}
-        <div className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
+        {/* Register Redirect */}
+        <div className="mt-4 sm:mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
           Don’t have an account?
         </div>
 
