@@ -6,9 +6,9 @@ const Home = () => {
   return (
     <div>
       <Header
-        heading1={"About"}
-        heading2={"Our Community"}
-        subtext={"We’re on a mission to empower student developers."}
+        heading1={"Empowering Developers" }
+        heading2={"Through Community"}
+        subtext={"Join a thriving community of student developers. Learn, collaborate, and build real-world projects with mentorship from industry experts.."}
       />
 
       {/* ✅ STATS SECTION */}

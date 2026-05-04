@@ -15,7 +15,7 @@ const Header = ({ heading1, heading2, subtext }) => {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-5xl font-bold w-1/2 max-[1030px]:w-2/3 max-[775px]:w-full max-[775px]:text-3xl text-center"
+                    className="text-6xl md : text-7xl font-bold w-full md: w-1/2 max-[1030px] : w-2/3 text-center"
                 >
                     <Heading heading1={heading1} heading2={heading2} />
                 </motion.h1>
