@@ -18,7 +18,7 @@ import { communityStats, domains, events, mentors } from "../data/mockData";
 
 const Home = () => {
   return (
-    <Layout>
+    <>
       <HomeHeader />
       <div className="px-20">
         {/* Stats */}
@@ -152,7 +152,7 @@ const Home = () => {
         </section>
       </div>
 
-    </Layout>
+    </>
   );
 };
 
