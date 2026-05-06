@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { motion } from "framer-motion";
 import SectionHeading from './ui/SectionHeading';
 import Button from './ui/Button';
-
+import { Link } from 'react-router-dom';
 const HomeHeader = () => {
     const { theme, setTheme } = useContext(themeContext)
     return (
@@ -23,12 +23,16 @@ const HomeHeader = () => {
                     />
                 </div>
                 <div className='flex  gap-5'>
-                    <Button className={'flex items-center justify-center text-xl max-[770px]:text-base max-[770px]:w-auto font-semibold'} size={'xl'}>
-                        Apply Now
-                    </Button>
-                    <Button variant={'outline'} className={'flex items-center justify-center text-xl max-[770px]:text-base  font-semibold'} size={'xl'}>
-                        Learn More
-                    </Button>
+                    <Link to="/careers">
+                        <Button className={'flex items-center justify-center text-xl max-[770px]:text-base max-[770px]:w-auto font-semibold'} size={'xl'}>
+                            Apply Now
+                        </Button>
+                    </Link>
+                    <Link to="/about">
+                        <Button variant={'outline'} className={'flex items-center justify-center text-xl max-[770px]:text-base  font-semibold'} size={'xl'}>
+                            Learn More
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </section>

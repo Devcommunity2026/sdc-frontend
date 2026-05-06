@@ -9,8 +9,7 @@ import SectionHeading from "../components/ui/SectionHeading";
 import StatCounter from "../components/ui/StatsCounter";
 import MentorCard from "../components/ui/MentorCard";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Laptop, Users, Trophy } from "lucide-react";
+import { Laptop, Users, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Mock data
@@ -20,99 +19,97 @@ const Home = () => {
   return (
     <>
       <HomeHeader />
-      <div className="px-20">
-        {/* Stats */}
-        <section className="py-12 ">
+
+      {/* ================= STATS (DARK) ================= */}
+      <section className="py-12 bg-dark-background text-dark-foreground">
+        <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {communityStats.map((stat, i) => (
               <StatCounter key={stat.label} stat={stat} index={i} />
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Community Section */}
-        <section className="py-16 lg:py-24">
-          <div className="container mx-auto px-4 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* ================= COMMUNITY (LIGHT) ================= */}
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-              {/* Left */}
-              <div>
-                <SectionHeading
-                  badge="Who We Are"
-                  title={
-                    <>
-                      A Community That{" "}
-                      <span className="text-primary dark:text-dark-primary">
-                        Codes Together
-                      </span>
-                    </>
-                  }
-                  subtitle="We bring developers together to learn, build, and grow through real-world collaboration and hands-on experience."
-                  center={false}
-                />
+            {/* Left */}
+            <div>
+              <SectionHeading
+                badge="Who We Are"
+                title={
+                  <>
+                    A Community That{" "}
+                    <span className="text-primary dark:text-dark-primary">
+                      Codes Together
+                    </span>
+                  </>
+                }
+                subtitle="We bring developers together to learn, build, and grow through real-world collaboration and hands-on experience."
+                center={false}
+              />
 
-                <div className="mt-6 space-y-4">
-
-                  <div className="flex items-center gap-3">
+              <div className="mt-6 space-y-4">
+                {[{
+                  icon: Laptop,
+                  text: "Hands-on workshops and coding sessions"
+                }, {
+                  icon: Users,
+                  text: "Peer-to-peer learning and mentorship"
+                }, {
+                  icon: Trophy,
+                  text: "Hackathons and competitive programming"
+                }].map(({ icon: Icon, text }, i) => (
+                  <div key={i} className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-primary/10 dark:bg-dark-primary/10">
-                      <Laptop className="w-5 h-5 text-primary dark:text-dark-primary" />
+                      <Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
                     </div>
                     <p className="text-foreground dark:text-dark-foreground">
-                      Hands-on workshops and coding sessions
+                      {text}
                     </p>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 dark:bg-dark-primary/10">
-                      <Users className="w-5 h-5 text-primary dark:text-dark-primary" />
-                    </div>
-                    <p className="text-foreground dark:text-dark-foreground">
-                      Peer-to-peer learning and mentorship
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 dark:bg-dark-primary/10">
-                      <Trophy className="w-5 h-5 text-primary dark:text-dark-primary" />
-                    </div>
-                    <p className="text-foreground dark:text-dark-foreground">
-                      Hackathons and competitive programming
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Right */}
-              <div
-                className="
-                p-8 rounded-2xl grid grid-cols-2 gap-4
-                bg-muted dark:bg-dark-muted
-              "
-              >
-                {["React", "Python", "TensorFlow", "Docker", "Git", "AWS"].map((tech) => (
-                  <div
-                    key={tech}
-                    className="
-                    p-4 rounded-xl text-center
-                    bg-background text-foreground
-                    border border-border
-                    dark:bg-dark-background dark:text-dark-foreground dark:border-dark-border
-                  "
-                  >
-                    {tech}
                   </div>
                 ))}
               </div>
-
             </div>
-          </div>
-        </section>
 
-        {/* Domains */}
-        <section className="py-16">
+            {/* Right */}
+            <div className="p-8 rounded-2xl grid grid-cols-2 gap-4 bg-muted dark:bg-dark-muted">
+              {["React", "Python", "TensorFlow", "Docker", "Git", "AWS"].map((tech) => (
+                <div
+                  key={tech}
+                  className="
+                    p-4 rounded-xl text-center
+                    bg-background text-foreground border border-border
+                    dark:bg-dark-background dark:text-dark-foreground dark:border-dark-border
+                  "
+                >
+                  {tech}
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= DOMAINS (DARK) ================= */}
+      <section className="py-16 bg-dark-background text-dark-foreground">
+        <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
-            title="Our Domains"
+            badge="What We Do"
+            title={
+              <>
+                <span className="text-white">
+                  Our{" "}
+                </span>
+                <span className="text-primary dark:text-dark-primary">
+                  Domains
+                </span>
+              </>
+            }
             subtitle="Explore different areas of technology"
           />
 
@@ -121,13 +118,31 @@ const Home = () => {
               <DomainCard key={domain.id} domain={domain} index={i} />
             ))}
           </div>
-        </section>
 
-        {/* Events */}
-        <section className="py-16">
+          <div className="flex justify-center mt-10">
+            <Link to="/domains">
+              <Button variant="outline" size="xl" className="text-lg font-semibold">
+                View All Domains
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= EVENTS (LIGHT) ================= */}
+      <section className="py-16">
+        <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
-            title="Events"
-            subtitle="Upcoming events"
+            badge="Stay Updated"
+            title={
+              <>
+                Upcoming{" "}
+                <span className="text-primary dark:text-dark-primary">
+                  Events
+                </span>
+              </>
+            }
+            subtitle="Don't miss out on our exciting events, workshops, and hackathons."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -135,13 +150,33 @@ const Home = () => {
               <EventCard key={event.id} event={event} index={i} />
             ))}
           </div>
-        </section>
 
-        {/* Mentors */}
-        <section className="py-16">
+          <div className="flex justify-center mt-10">
+            <Link to="/events">
+              <Button variant="outline" size="xl" className="text-lg font-semibold">
+                View All Events
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= MENTORS (DARK) ================= */}
+      <section className="py-16 bg-dark-background text-dark-foreground">
+        <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
-            title="Mentors"
-            subtitle="Learn from experts"
+            badge="Learn from the Best"
+            title={
+              <>
+                <span className="text-white">
+                  Our{" "}
+                </span>
+                <span className="text-primary dark:text-dark-primary">
+                  Mentors
+                </span>
+              </>
+            }
+            subtitle="Industry experts who guide our community members on their tech journey."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -149,8 +184,16 @@ const Home = () => {
               <MentorCard key={mentor.name} mentor={mentor} index={i} />
             ))}
           </div>
-        </section>
-      </div>
+
+          <div className="flex justify-center mt-10">
+            <Link to="/team">
+              <Button variant="outline" size="xl" className="text-lg font-semibold">
+                Meet Our Team
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
     </>
   );
