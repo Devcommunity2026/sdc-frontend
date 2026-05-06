@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <Navbar />
 
       {/* Main Content */}
-      <main className="flex-1 pt-20">
+      <main className="pt-20">
         {children}
       </main>
 

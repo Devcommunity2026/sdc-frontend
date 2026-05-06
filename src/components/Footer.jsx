@@ -1,132 +1,146 @@
 import React from "react";
 
 const Footer = () => {
-  const styles = {
-    footer: {
-      background: "radial-gradient(circle, #0f172a, #020617)",
-      color: "#cbd5f5",
-      padding: "40px",
-    },
-    topStrip: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      borderBottom: "1px solid #1e293b",
-      paddingBottom: "20px",
-      marginBottom: "30px",
-    },
-    button: {
-      padding: "10px 20px",
-      background: "#3b82f6",
-      color: "#fff",
-      border: "none",
-      borderRadius: "20px",
-      cursor: "pointer",
-    },
-    container: {
-      display: "grid",
-      gridTemplateColumns: "repeat(4,1fr)",
-      gap: "100px",
-    },
-    logo: {
-      color: "#3b82f6",
-    },
-    text: {
-      fontSize: "14px",
-      marginTop: "10px",
-    },
-    socials: {
-      display: "flex",
-      gap: "10px",
-      marginTop: "10px",
-    },
-    heading: {
-      color: "#fff",
-      marginBottom: "10px",
-    },
-    link: {
-      fontSize: "14px",
-      margin: "5px 0",
-      cursor: "pointer",
-    },
-    bottom: {
-      borderTop: "1px solid #1e293b",
-      marginTop: "30px",
-      paddingTop: "15px",
-      display: "flex",
-      justifyContent: "space-between",
-      fontSize: "12px",
-    },
-  };
-
   return (
-    <footer style={styles.footer}>
-
+    <footer
+      className="
+        px-10 py-10
+        bg-secondary text-foreground
+        dark:bg-dark-secondary dark:text-dark-foreground
+        border-t border-border dark:border-dark-border
+      "
+    >
       {/* TOP STRIP */}
-      <div style={styles.topStrip}>
+      <div
+        className="
+          flex flex-col md:flex-row md:items-center md:justify-between gap-6
+          border-b pb-5 mb-8
+          border-border dark:border-dark-border
+        "
+      >
         <div>
-          <h3>Ready to join the community?</h3>
-          <p>Connect with 150+ developers and start building together.</p>
+          <h3 className="text-lg font-semibold mb-1">
+            Ready to join the community?
+          </h3>
+          <p className="text-sm text-muted-foreground dark:text-dark-muted-foreground">
+            Connect with 150+ developers and start building together.
+          </p>
         </div>
 
-        <button style={styles.button}>Get Started ↗</button>
+        <button
+          className="
+            px-5 py-2 rounded-full text-sm font-semibold transition-all
+            bg-primary text-primary-foreground
+            hover:opacity-90
+            dark:bg-dark-primary dark:text-dark-primary-foreground
+          "
+        >
+          Get Started ↗
+        </button>
       </div>
 
       {/* MAIN GRID */}
-      <div style={styles.container}>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        
         {/* LEFT */}
         <div>
-          <h2 style={styles.logo}>DEVELOPERS<br></br>COMMUNITY</h2>
-          <p style={styles.text}>
-            A student-led tech community <br></br> at Medi-Caps University,<br></br>
-            empowering developers through<br></br> collaboration, mentorship,<br></br>
+          <h2 className="text-xl font-bold text-primary dark:text-dark-primary">
+            DEVELOPERS <br /> COMMUNITY
+          </h2>
+
+          <p className="text-sm mt-3 leading-relaxed text-muted-foreground dark:text-dark-muted-foreground">
+            A student-led tech community <br />
+            at Medi-Caps University,<br />
+            empowering developers through<br />
+            collaboration, mentorship,<br />
             and hands-on learning.
           </p>
 
-          <div style={styles.socials}>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+          <div className="flex gap-3 mt-4">
+            <span className="w-4 h-4 rounded-full bg-muted dark:bg-dark-muted" />
+            <span className="w-4 h-4 rounded-full bg-muted dark:bg-dark-muted" />
+            <span className="w-4 h-4 rounded-full bg-muted dark:bg-dark-muted" />
+            <span className="w-4 h-4 rounded-full bg-muted dark:bg-dark-muted" />
           </div>
         </div>
 
         {/* QUICK LINKS */}
         <div>
-          <h4 style={styles.heading}>Quick Links</h4>
-          {["About", "Domains", "Events", "Projects", "Blogs", "Career"].map((item) => (
-            <p key={item} style={styles.link}>{item}</p>
-          ))}
+          <h4 className="mb-3 font-semibold text-foreground dark:text-dark-foreground">
+            Quick Links
+          </h4>
+          {["About", "Domains", "Events", "Projects", "Blogs", "Career"].map(
+            (item) => (
+              <p
+                key={item}
+                className="
+                  text-sm my-1 cursor-pointer transition-colors
+                  text-muted-foreground hover:text-primary
+                  dark:text-dark-muted-foreground dark:hover:text-dark-primary
+                "
+              >
+                {item}
+              </p>
+            )
+          )}
         </div>
 
         {/* DOMAINS */}
         <div>
-          <h4 style={styles.heading}>Domains</h4>
-          {["Web Development", "AI / ML", "Cybersecurity", "Mobile Development", "Open Source"].map((item) => (
-            <p key={item} style={styles.link}>• {item}</p>
+          <h4 className="mb-3 font-semibold text-foreground dark:text-dark-foreground">
+            Domains
+          </h4>
+          {[
+            "Web Development",
+            "AI / ML",
+            "Cybersecurity",
+            "Mobile Development",
+            "Open Source",
+          ].map((item) => (
+            <p
+              key={item}
+              className="
+                text-sm my-1 transition-colors
+                text-muted-foreground hover:text-primary
+                dark:text-dark-muted-foreground dark:hover:text-dark-primary
+              "
+            >
+              • {item}
+            </p>
           ))}
         </div>
 
         {/* CONTACT */}
         <div>
-          <h4 style={styles.heading}>Get in Touch</h4>
-          <p style={styles.link}>📧 dev.community@medicaps.ac.in</p>
-          <p style={styles.link}>📍 Medi-Caps University, Indore</p>
-          <p style={styles.link}>🌐 medicaps.ac.in</p>
+          <h4 className="mb-3 font-semibold text-foreground dark:text-dark-foreground">
+            Get in Touch
+          </h4>
+          <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
+            📧 dev.community@medicaps.ac.in
+          </p>
+          <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
+            📍 Medi-Caps University, Indore
+          </p>
+          <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
+            🌐 medicaps.ac.in
+          </p>
         </div>
-
       </div>
 
       {/* BOTTOM */}
-      <div style={styles.bottom}>
+      <div
+        className="
+          mt-10 pt-4 flex flex-col md:flex-row justify-between gap-3 text-xs
+          border-t
+          border-border dark:border-dark-border
+          text-muted-foreground dark:text-dark-muted-foreground
+        "
+      >
         <p>© {new Date().getFullYear()} Developers' Community</p>
-        <p>Made with❤️— Break · Build · Merge</p>
+        <p>Made with ❤️ — Break · Build · Merge</p>
       </div>
-
     </footer>
   );
 };
-
 
 export default Footer;
