@@ -1,13 +1,21 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const SectionHeading = ({ badge, title, subtitle, center = true }) => (
+const SectionHeading = ({
+  badge,
+  title,
+  subtitle,
+  center = true,
+  home = false,
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.5 }}
-    className={`mb-12 lg:mb-16 ${center ? "text-center" : ""}`}
+    className={`mb-12 lg:mb-16 ${
+      center ? "flex flex-col items-center text-center" : ""
+    }`}
   >
     {badge && (
       <span
@@ -22,20 +30,26 @@ const SectionHeading = ({ badge, title, subtitle, center = true }) => (
     )}
 
     <h2
-      className="
-        text-3xl md:text-4xl lg:text-5xl font-heading font-bold
+      className={`
+        font-heading font-bold
         text-foreground dark:text-dark-foreground
-      "
+        ${
+          home
+            ? "text-4xl md:text-5xl lg:text-6xl"
+            : "text-3xl md:text-4xl lg:text-5xl"
+        }
+      `}
     >
       {title}
     </h2>
 
     {subtitle && (
       <p
-        className="
-          mt-4 max-w-2xl mx-auto text-base lg:text-lg leading-relaxed
+        className={`
+          mt-4 text-base lg:text-lg leading-relaxed
           text-muted-foreground dark:text-dark-muted-foreground
-        "
+          ${center ? "max-w-2xl" : ""}
+        `}
       >
         {subtitle}
       </p>
