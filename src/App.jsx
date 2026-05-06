@@ -1,6 +1,5 @@
 import { useState } from "react";
 import DomainCard from "./components/ui/DomainCard";
-import Footer from "./components/Footer";
 
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
