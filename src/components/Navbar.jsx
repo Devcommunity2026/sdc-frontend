@@ -60,8 +60,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className="w-full fixed left-0 top-0 h-20 shadow-md flex items-center justify-between px-6 md:px-10 backdrop-blur-3xl z-50 
-      bg-background dark:bg-dark-nav text-foreground dark:text-dark-foreground"
+      className="w-full fixed left-0 top-0 h-20 shadow-md dark:shadow-dark-accent flex items-center justify-between px-6 md:px-10 backdrop-blur-lg z-50 
+      bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground"
     >
       {/* Logo */}
       <img

@@ -1,6 +1,8 @@
 import React from "react";
 import DomainCard from "../components/ui/DomainCard";
 import Header from "../components/Header";
+import Layout from "../components/Layout";
+
 const domains = [
   {
     id: "1",
@@ -27,7 +29,7 @@ const domains = [
 
 const Domains = () => {
   return (
-    <div>
+    <Layout>
       <Header
         heading1={'Our '}
         heading2={'Domains'}
@@ -38,7 +40,7 @@ const Domains = () => {
           <DomainCard key={domain.id} domain={domain} index={index} />
         ))}
       </div>
-    </div>
+    </Layout>
   );
 };
 

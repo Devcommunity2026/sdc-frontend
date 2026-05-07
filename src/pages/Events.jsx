@@ -2,7 +2,7 @@ import React from 'react'
 import EventCard from "../components/ui/EventCard";
 import { div } from 'framer-motion/client';
 import Header from '../components/Header';
-
+import Layout from '../components/Layout';
 
 const eventsData = [
   {
@@ -27,7 +27,7 @@ const eventsData = [
 const Events = () => {
   return (
 
-    <div>
+    <Layout>
       <Header
         heading1={'Upcoming  '}
         heading2={'Events'}
@@ -39,7 +39,7 @@ const Events = () => {
           <EventCard key={event.id} event={event} index={index} />
         ))}
       </div>
-    </div>
+    </Layout>
 
 
   )

@@ -1,7 +1,7 @@
 import React from "react";
 import TeamCard from "../components/ui/TeamCard";
 import Header from '../components/Header'
-
+import Layout from "../components/Layout";
 
 const Team = () => {
   const teamMembers = [
@@ -33,7 +33,7 @@ const Team = () => {
 
   return (
 
-    <div>
+    <Layout>
       <Header
         heading1={'Our  '}
         heading2={'Team'}
@@ -53,7 +53,7 @@ const Team = () => {
         </div>
 
       </div>
-    </div>
+    </Layout>
   );
 };
 
