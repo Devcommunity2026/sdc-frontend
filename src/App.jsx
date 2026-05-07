@@ -16,6 +16,11 @@ import Projects from "./pages/Projects";
 import Events from "./pages/Events";
 import Register from "./pages/Register";
 import Verify from "./pages/Verify";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UserDashboard from "./pages/admin/UserDashboard";
+import ApplicationDashboard from "./pages/admin/ApplicationDashboard";
+import ContentDashboard from "./pages/admin/ContentDashboard";
+import SettingDashboard from "./pages/admin/SettingDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -25,7 +30,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <Layout>
+          <>
 
             <Routes>
 
@@ -38,6 +43,11 @@ function App() {
               <Route path="/careers" element={<Careers />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/user" element={<UserDashboard />} />
+              <Route path="/admin/content" element={<ContentDashboard />} />
+              <Route path="/admin/application" element={<ApplicationDashboard />} />
+              <Route path="/admin/settings" element={<SettingDashboard />} />
 
               {/* Public Auth Pages */}
               <Route
@@ -81,7 +91,7 @@ function App() {
 
             </Routes>
 
-          </Layout>
+          </>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

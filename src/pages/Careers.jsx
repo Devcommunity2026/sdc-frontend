@@ -102,7 +102,7 @@ const Careers = () => {
   }
 
   return (
-    <>
+    <Layout>
       {/* Hero */}
       <Header
         heading1="Join "
@@ -335,7 +335,7 @@ const Careers = () => {
 
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 

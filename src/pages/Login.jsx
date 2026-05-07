@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Header from "../components/Header";
+import Layout from "../components/Layout";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,69 +31,84 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full">
+    <Layout>
 
-      <Header
-        heading1="Welcome"
-        heading2="Back"
-        subtext="Login to continue your journey with the community"
-      />
+      <div className="w-full min-h-screen bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
+        <Header
+          heading1="Welcome"
+          heading2="Back"
+          subtext="Login to continue your journey with the community"
+        />
 
         <div className="flex justify-center px-4 pb-16 -mt-10 sm:-mt-12">
-        <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl
-        bg-card dark:bg-dark-card
-        border border-border dark:border-dark-border
-        backdrop-blur-md">
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4" autoComplete="off">
+          {/* Card */}
+          <div className="
+          w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl
+          bg-card dark:bg-dark-card
+          border border-border dark:border-dark-border
+        ">
 
-            <input
-              type="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="off"
-              className="p-3 rounded-lg border 
-              bg-background dark:bg-dark-input
-              border-border dark:border-dark-border
-              focus:ring-2 focus:ring-primary
-              outline-none transition"
-            />
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-            <input
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="off"
-              className="p-3 rounded-lg border 
-              bg-background dark:bg-dark-input
-              border-border dark:border-dark-border
-              focus:ring-2 focus:ring-primary
-              outline-none transition"
-            />
+              {/* Email */}
+              <input
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+                className="
+                p-3 rounded-lg border outline-none transition
+                bg-background dark:bg-dark-input
+                text-foreground dark:text-dark-foreground
+                border-border dark:border-dark-border
+                focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary
+              "
+              />
 
-            <Button className="w-full mt-2">
-              Login
+              {/* Password */}
+              <input
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="off"
+                className="
+                p-3 rounded-lg border outline-none transition
+                bg-background dark:bg-dark-input
+                text-foreground dark:text-dark-foreground
+                border-border dark:border-dark-border
+                focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary
+              "
+              />
+
+              {/* Button */}
+              <Button className="w-full mt-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                Login
+              </Button>
+
+            </form>
+
+            <div className="
+            mt-6 text-center text-sm
+            text-muted-foreground dark:text-dark-muted-foreground
+          ">
+              Don’t have an account?
+            </div>
+
+            <Button
+              variant="outline"
+              className="w-full mt-2 border-border dark:border-dark-border"
+              onClick={() => navigate("/register")}
+            >
+              Create Account
             </Button>
 
-          </form>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground dark:text-dark-muted-foreground">
-            Don’t have an account?
           </div>
-
-          <Button
-            variant="outline"
-            className="w-full mt-2"
-            onClick={() => navigate("/register")}
-          >
-            Create Account
-          </Button>
-
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

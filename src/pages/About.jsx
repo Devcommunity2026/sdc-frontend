@@ -24,7 +24,7 @@ const cardVariants = {
 
 const About = () => {
   return (
-    <>
+    <Layout>
       <Header heading1={'About'} heading2={'Our Comunity'}
         subtext={`We're on a mission to empower student developers with the skills, mentorship, and community they need to thrive.`} />
 
@@ -89,7 +89,7 @@ const About = () => {
           </motion.div>
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 
