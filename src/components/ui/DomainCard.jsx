@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
-import { Globe, Brain, Shield, Smartphone, GitBranch } from "lucide-react";
+import { Globe } from "lucide-react";
+import iconMap from "../../data/iconMap";
 
-const iconMap = { Globe, Brain, Shield, Smartphone, GitBranch };
-
-const DomainCard = ({ domain, index }) => {
-  
+const DomainCard = ({ domain, index, center = false }) => {
   const Icon = iconMap[domain.icon] || Globe;
 
   return (
@@ -15,23 +13,45 @@ const DomainCard = ({ domain, index }) => {
       whileTap={{ scale: 0.97 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.2 }}
-      className="group bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200
-       dark:border-gray-700 shadow-sm hover:shadow-lg transition-all cursor-default"
+      className={`
+        group rounded-2xl p-6 border shadow-sm hover:shadow-lg transition-all cursor-default
+        bg-card text-card-foreground border-border
+        dark:bg-dark-card dark:text-dark-card-foreground dark:border-dark-border
+        ${center ? "flex flex-col items-center text-center" : ""}
+      `}
     >
-      <div
-        className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${domain.color === "purple"
-            ? "bg-purple-100 text-purple-600 group-hover:bg-purple-200"
-            : "bg-blue-100 text-blue-600 group-hover:bg-blue-200"
-          }`}
+
+      {/* Icon */}
+      {domain.icon && <div
+        className={`
+          w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-all duration-300
+          ${domain.color === "purple"
+            ? "bg-accent text-accent-foreground dark:bg-dark-accent dark:text-dark-accent-foreground"
+            : "bg-primary text-primary-foreground dark:bg-dark-primary dark:text-dark-primary-foreground"
+          }
+        `}
       >
         <Icon size={26} />
-      </div>
+      </div>}
 
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      {domain.iconText && <div
+        className={` gradient w-14 h-14 rounded-xl text-4xl font-semibold  flex items-center  mb-4 transition-all duration-300`}
+      >
+        {domain.iconText}
+      </div>}
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold mb-2 text-foreground dark:text-dark-foreground">
         {domain.title}
       </h3>
 
-      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+      {/* Description */}
+      <p
+        className={`
+          text-sm leading-relaxed text-muted-foreground dark:text-dark-muted-foreground
+          ${center ? "max-w-xs" : ""}
+        `}
+      >
         {domain.description}
       </p>
     </motion.div>
