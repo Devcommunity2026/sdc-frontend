@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
+import Header from "../components/Header";
 
 const Verify = () => {
   const navigate = useNavigate();
@@ -20,51 +21,58 @@ const Verify = () => {
     try {
       const res = await axios.post(
         "http://127.0.0.1:3000/auth/verify",
-        { email, otp },
+        { email, userOtp: otp },
         { withCredentials: true }
       );
 
       if (res.data.success) {
         localStorage.setItem("isLoggedIn", "true");
-        navigate("/");
+        window.location.href = "/";
       }
-
     } catch (err) {
       alert(err.response?.data?.message || "Verification failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4
-    bg-background dark:bg-dark-background transition-colors">
-      <div className="w-full max-w-[400px] p-6 sm:p-7 rounded-2xl shadow-xl 
-      bg-white dark:bg-dark-background border border-black/5 dark:border-white/10">
+    <div className="w-full">
 
-        <h2 className="text-xl sm:text-2xl font-semibold text-center 
-        text-foreground dark:text-dark-foreground mb-5 sm:mb-6">
-          Verify OTP 🔐
-        </h2>
+      {/* HEADER */}
+      <Header
+        heading1="Verify"
+        heading2="OTP"
+        subtext="Enter the OTP sent to your email"
+      />
 
-        <form onSubmit={handleVerify} className="flex flex-col gap-3 sm:gap-4">
+      {/* CARD */}
+      <div className="flex justify-center px-4 pb-16 -mt-10 sm:-mt-12">
+        <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl
+        bg-card dark:bg-dark-card
+        border border-border dark:border-dark-border
+        backdrop-blur-md">
 
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className="p-3 rounded-lg border 
-            bg-white dark:bg-[#1a1a1a]
-            text-black dark:text-white
-            outline-none focus:ring-2 focus:ring-primary
-            placeholder:text-gray-400 text-center"
-          />
+          <form onSubmit={handleVerify} className="flex flex-col gap-4">
 
-          <Button className="w-full mt-2">
-            Verify
-          </Button>
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              autoComplete="one-time-code"
+              className="p-3 rounded-lg border text-center 
+              bg-background dark:bg-dark-input
+              border-border dark:border-dark-border
+              focus:ring-2 focus:ring-primary
+              outline-none transition tracking-widest"
+            />
 
-        </form>
+            <Button className="w-full mt-2">
+              Verify
+            </Button>
 
+          </form>
+
+        </div>
       </div>
     </div>
   );
