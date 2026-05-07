@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import navData from "../data/navData";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sun, Moon, Menu } from "lucide-react";
@@ -10,40 +10,80 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const location = useLocation();
+  const isAuthPage =
+  location.pathname === "/login" ||
+  location.pathname === "/register" ||
+  location.pathname === "/verify";
+
   const navigate = useNavigate();
   const { theme, setTheme } = useContext(themeContext);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Login State
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+
+  // Update navbar instantly when login/logout happens
+  useEffect(() => {
+    const checkLogin = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+
+    window.addEventListener("storage", checkLogin);
+
+    checkLogin();
+
+    return () => {
+      window.removeEventListener("storage", checkLogin);
+    };
+  }, []);
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    setIsOpen(false);
+    navigate("/login");
+  };
+
+  // Login
+  const handleLogin = () => {
+    setIsOpen(false);
+    navigate("/login");
+  };
+
+  // Theme Toggle
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const handleLogin = () => {
-    setIsOpen(false)
-    navigate("/login");
-  };
-
   return (
-    <nav className="w-full fixed left-0 top-0 h-20 shadow-md shadow-secondary dark:shadow-dark-secondary flex items-center justify-between px-15 max-[1150px]:px-8 backdrop-blur-3xl z-50">
-
+    <nav
+      className="w-full fixed left-0 top-0 h-20 shadow-md flex items-center justify-between px-6 md:px-10 backdrop-blur-3xl z-50 
+      bg-background dark:bg-dark-nav text-foreground dark:text-dark-foreground"
+    >
       {/* Logo */}
       <img
         src={theme !== "dark" ? logo : darkLogo}
         alt="logo"
-        className="h-10"
+        className="h-10 cursor-pointer"
+        onClick={() => navigate("/")}
       />
 
-      {/* Desktop Nav Links */}
-      <div className="flex gap-2 max-[950px]:hidden">
+      {/* Desktop Links */}
+      <div className="hidden md:flex gap-2">
         {navData.map((item) => (
           <Link
             key={item.name}
             to={item.path}
-            className={`px-4 py-2 max-[1050px]:px-2 rounded-lg text-sm min-[1050px]:font-medium 
-              ${location.pathname === item.path
-                ? "bg-muted dark:bg-dark-muted"
-                : "hover:bg-black/10"
-              } transition-all`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium 
+              ${
+                location.pathname === item.path
+                  ? "bg-primary/20 text-primary"
+                  : "hover:bg-black/10 dark:hover:bg-white/10"
+              }
+              transition-all`}
           >
             {item.name}
           </Link>
@@ -51,20 +91,27 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Actions */}
-      <div className="flex items-center gap-5 max-[950px]:hidden">
+      <div className="hidden md:flex items-center gap-4">
+
+        {/* Theme Toggle */}
         <button
-          className="rounded-md bg-secondary dark:bg-dark-secondary px-3 py-3"
+          className="rounded-md bg-background dark:bg-dark-background px-3 py-3"
           onClick={toggleTheme}
         >
           {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
-        <Button onClick={handleLogin}>Login</Button>
+        {/* Login / Logout */}
+        {isLoggedIn ? (
+  <Button onClick={handleLogout}>Logout</Button>
+) : (
+  <Button onClick={handleLogin}>Login</Button>
+)}
       </div>
 
       {/* Mobile Menu Button */}
       <div
-        className="min-[950px]:hidden cursor-pointer"
+        className="md:hidden cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Menu />
@@ -77,7 +124,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="absolute top-20 left-0 w-full glass overflow-hidden bg-background dark:bg-dark-background"
+            className="absolute top-20 left-0 w-full bg-background dark:bg-dark-background shadow-lg"
           >
             <div className="px-4 py-4 space-y-2">
 
@@ -87,10 +134,12 @@ const Navbar = () => {
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all
-                    ${location.pathname === item.path
-                      ? "bg-primary/15 text-primary"
-                      : "hover:bg-muted"
-                    }`}
+                    ${
+                      location.pathname === item.path
+                        ? "bg-primary/15 text-primary"
+                        : "hover:bg-black/10 dark:hover:bg-white/10"
+                    }
+                  `}
                 >
                   {item.name}
                 </Link>
@@ -98,22 +147,36 @@ const Navbar = () => {
 
               {/* Mobile Actions */}
               <div className="flex items-center gap-2 mt-3">
+
+                {/* Theme Button */}
                 <button
                   onClick={toggleTheme}
-                  className="flex-1 p-3 rounded-lg bg-secondary dark:bg-dark-secondary  text-sm flex items-center justify-center gap-2"
+                  className="flex-1 p-3 rounded-lg bg-secondary dark:bg-dark-secondary text-sm flex items-center justify-center gap-2"
                 >
                   {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
                   {theme === "dark" ? "Light" : "Dark"}
                 </button>
 
-                <button
-                  onClick={handleLogin}
-                  className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
-                >
-                  Login
-                </button>
-              </div>
+                {/* Login / Logout */}
+                {isLoggedIn ? (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleLogin}
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                  >
+                    Login
+                  </button>
+                )}
 
+              </div>
             </div>
           </motion.div>
         )}
