@@ -2,30 +2,8 @@ import React from "react";
 import DomainCard from "../components/ui/DomainCard";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
+import { domains } from "../data/mockData";
 
-const domains = [
-  {
-    id: "1",
-    title: "Web Development",
-    description: "Build modern websites",
-    icon: "Globe",
-    color: "primary",
-  },
-  {
-    id: "2",
-    title: "AI / ML",
-    description: "Explore machine learning and AI concepts",
-    icon: "Brain",
-    color: "primary",
-  },
-  {
-    id: "3",
-    title: "Cyber Security",
-    description: "Learn how to secure systems and networks",
-    icon: "Shield",
-    color: "primary",
-  },
-];
 
 const Domains = () => {
   return (

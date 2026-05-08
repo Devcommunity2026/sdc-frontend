@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import Layout from "../components/Layout";
 import HomeHeader from "../components/HomeHeader";
 
-// UI components
+// UI Components
 import Button from "../components/ui/Button";
 import DomainCard from "../components/ui/DomainCard";
 import EventCard from "../components/ui/EventCard";
@@ -12,26 +15,107 @@ import MentorCard from "../components/ui/MentorCard";
 import { Laptop, Users, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// Mock data
-import { communityStats, domains, events, mentors } from "../data/mockData";
+// Mock Data
+import { domains } from "../data/mockData";
 
 const Home = () => {
+  const [events, setEvents] = useState([]);
+  const [mentors, setMentors] = useState([]);
+
+  const [communityStats, setCommunityStats] = useState([
+    {
+      label: "Users",
+      value: 0,
+    },
+    {
+      label: "Mentors",
+      value: 0,
+    },
+    {
+      label: "Members",
+      value: 0,
+    },
+    {
+      label: "Domains",
+      value: 6,
+    },
+  ]);
+
+  // Fetch Home Page Data
+  const fetchHomeData = async () => {
+    try {
+      const [eventsRes, mentorsRes, statsRes] = await Promise.all([
+        axios.get(
+          "http://localhost:3000/public/event?page=1&limit=3"
+        ),
+
+        axios.get(
+          "http://localhost:3000/public/mentor?page=1&limit=3"
+        ),
+
+        axios.get("http://localhost:3000/public/stats"),
+      ]);
+
+      // Events
+      if (eventsRes.data.success) {
+        setEvents(eventsRes.data.data);
+      }
+
+      // Mentors
+      if (mentorsRes.data.success) {
+        setMentors(mentorsRes.data.data);
+      }
+
+      // Stats
+      if (statsRes.data.success) {
+        setCommunityStats([
+          {
+            label: "Users",
+            value: statsRes.data.data.users || 0,
+          },
+          {
+            label: "Mentors",
+            value: statsRes.data.data.mentors || 0,
+          },
+          {
+            label: "Members",
+            value: statsRes.data.data.members || 0,
+          },
+          {
+            label: "Domains",
+            value: 6,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch home data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHomeData();
+  }, []);
+
   return (
     <Layout>
       <HomeHeader />
 
-      {/* ================= STATS (DARK) ================= */}
+      {/* ================= STATS ================= */}
       <section className="py-12 bg-dark-background text-dark-foreground">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {communityStats.map((stat, i) => (
-              <StatCounter key={stat.label} stat={stat} index={i} />
+              <StatCounter
+                key={stat.label}
+                stat={stat}
+                index={i}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ================= COMMUNITY (LIGHT) ================= */}
+      {/* ================= COMMUNITY ================= */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -53,20 +137,28 @@ const Home = () => {
               />
 
               <div className="mt-6 space-y-4">
-                {[{
-                  icon: Laptop,
-                  text: "Hands-on workshops and coding sessions"
-                }, {
-                  icon: Users,
-                  text: "Peer-to-peer learning and mentorship"
-                }, {
-                  icon: Trophy,
-                  text: "Hackathons and competitive programming"
-                }].map(({ icon: Icon, text }, i) => (
-                  <div key={i} className="flex items-center gap-3">
+                {[
+                  {
+                    icon: Laptop,
+                    text: "Hands-on workshops and coding sessions",
+                  },
+                  {
+                    icon: Users,
+                    text: "Peer-to-peer learning and mentorship",
+                  },
+                  {
+                    icon: Trophy,
+                    text: "Hackathons and competitive programming",
+                  },
+                ].map(({ icon: Icon, text }, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3"
+                  >
                     <div className="p-2 rounded-lg bg-primary/10 dark:bg-dark-primary/10">
                       <Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
                     </div>
+
                     <p className="text-foreground dark:text-dark-foreground">
                       {text}
                     </p>
@@ -77,7 +169,14 @@ const Home = () => {
 
             {/* Right */}
             <div className="p-8 rounded-2xl grid grid-cols-2 gap-4 bg-muted dark:bg-dark-muted">
-              {["React", "Python", "TensorFlow", "Docker", "Git", "AWS"].map((tech) => (
+              {[
+                "React",
+                "Python",
+                "TensorFlow",
+                "Docker",
+                "Git",
+                "AWS",
+              ].map((tech) => (
                 <div
                   key={tech}
                   className="
@@ -95,7 +194,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ================= DOMAINS (DARK) ================= */}
+      {/* ================= DOMAINS ================= */}
       <section className="py-16 bg-dark-background text-dark-foreground">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
@@ -105,6 +204,7 @@ const Home = () => {
                 <span className="text-white">
                   Our{" "}
                 </span>
+
                 <span className="text-primary dark:text-dark-primary">
                   Domains
                 </span>
@@ -115,13 +215,21 @@ const Home = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {domains.slice(0, 3).map((domain, i) => (
-              <DomainCard key={domain.id} domain={domain} index={i} />
+              <DomainCard
+                key={domain.id}
+                domain={domain}
+                index={i}
+              />
             ))}
           </div>
 
           <div className="flex justify-center mt-10">
             <Link to="/domains">
-              <Button variant="outline" size="xl" className="text-lg font-semibold">
+              <Button
+                variant="outline"
+                size="xl"
+                className="text-lg font-semibold"
+              >
                 View All Domains
               </Button>
             </Link>
@@ -129,7 +237,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ================= EVENTS (LIGHT) ================= */}
+      {/* ================= EVENTS ================= */}
       <section className="py-16">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
@@ -146,14 +254,25 @@ const Home = () => {
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.slice(0, 3).map((event, i) => (
-              <EventCard key={event.id} event={event} index={i} />
+            {events.map((event, i) => (
+              <EventCard
+                key={event._id}
+                event={{
+                  ...event,
+                  image: event.thumbnail || event.image,
+                }}
+                index={i}
+              />
             ))}
           </div>
 
           <div className="flex justify-center mt-10">
             <Link to="/events">
-              <Button variant="outline" size="xl" className="text-lg font-semibold">
+              <Button
+                variant="outline"
+                size="xl"
+                className="text-lg font-semibold"
+              >
                 View All Events
               </Button>
             </Link>
@@ -161,7 +280,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ================= MENTORS (DARK) ================= */}
+      {/* ================= MENTORS ================= */}
       <section className="py-16 bg-dark-background text-dark-foreground">
         <div className="container mx-auto px-4 lg:px-8">
           <SectionHeading
@@ -171,6 +290,7 @@ const Home = () => {
                 <span className="text-white">
                   Our{" "}
                 </span>
+
                 <span className="text-primary dark:text-dark-primary">
                   Mentors
                 </span>
@@ -181,13 +301,21 @@ const Home = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {mentors.map((mentor, i) => (
-              <MentorCard key={mentor.name} mentor={mentor} index={i} />
+              <MentorCard
+                key={mentor._id}
+                mentor={mentor}
+                index={i}
+              />
             ))}
           </div>
 
           <div className="flex justify-center mt-10">
             <Link to="/team">
-              <Button variant="outline" size="xl" className="text-lg font-semibold">
+              <Button
+                variant="outline"
+                size="xl"
+                className="text-lg font-semibold"
+              >
                 Meet Our Team
               </Button>
             </Link>
