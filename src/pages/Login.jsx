@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
+import { handelLogin } from "../controllers/loginRequest";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,24 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await axios.post(
-        "http://127.0.0.1:3000/auth/login",
-        { email, password },
-        { withCredentials: true }
-      );
-
-      if (res.data.success) {
-        localStorage.setItem("isLoggedIn", "true");
-        window.location.href = "/";
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
-    }
-  };
+  const handleSubmit = async (e) => await handelLogin(e, email, password)
 
   return (
     <Layout>
