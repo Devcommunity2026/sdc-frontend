@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers, handleRoleChange, handleBanUser , handleDeleteMember, } from "../../controllers/admin/userDashboard";
+import { fetchUsers, handleRoleChange, handleBanUser, handleDeleteMember, } from "../../controllers/admin/userDashboard";
 import {
     Shield,
     ShieldCheck,
@@ -25,13 +25,13 @@ const UserDashboard = () => {
     const [openMenu, setOpenMenu] = useState(null);
     const [openAddModal, setOpenAddModal] = useState(false);
 
-const [formData, setFormData] = useState({
-    name: "",
-    post: "",
-    description: "",
-    linkedin: "",
-    image: null,
-});
+    const [formData, setFormData] = useState({
+        name: "",
+        post: "",
+        description: "",
+        linkedin: "",
+        image: null,
+    });
 
     useEffect(() => {
         fetchUsers(setLoading, page, curr, setUsers, setTotalPages);
@@ -39,48 +39,72 @@ const [formData, setFormData] = useState({
 
     const handleAddMember = async () => {
 
-    try {
+        try {
 
-        const data = new FormData();
+            const data = new FormData();
 
-        data.append("name", formData.name);
-        data.append("linkedin", formData.linkedin);
-        data.append("image", formData.image);
+            data.append("name", formData.name);
+            data.append("linkedin", formData.linkedin);
+            data.append("image", formData.image);
 
-        // TEAM
-        if (curr === "Team") {
+            // TEAM
+            if (curr === "Team") {
 
-            data.append("post", formData.post);
+                data.append("post", formData.post);
 
-            await axios.post(
-                "http://localhost:3000/edit/addCoreTeamMember",
-                data,
-                {
-                    withCredentials: true,
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
+                await axios.post(
+                    "http://localhost:3000/edit/addCoreTeamMember",
+                    data,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+            }
+
+            // MENTOR
+            else if (curr === "Mentor") {
+
+                data.append("description", formData.description);
+
+                await axios.post(
+                    "http://localhost:3000/edit/addMentor",
+                    data,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
+            }
+
+            fetchUsers(
+                setLoading,
+                page,
+                curr,
+                setUsers,
+                setTotalPages
             );
+
+            setOpenAddModal(false);
+
+            setFormData({
+                name: "",
+                post: "",
+                description: "",
+                linkedin: "",
+                image: null,
+            });
+
+        } catch (error) {
+            console.log(error);
         }
+    };
 
-        // MENTOR
-        else if (curr === "Mentor") {
-
-            data.append("description", formData.description);
-
-            await axios.post(
-                "http://localhost:3000/edit/addMentor",
-                data,
-                {
-                    withCredentials: true,
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-        }
-
+    const refreshUsers = () => {
         fetchUsers(
             setLoading,
             page,
@@ -88,31 +112,7 @@ const [formData, setFormData] = useState({
             setUsers,
             setTotalPages
         );
-
-        setOpenAddModal(false);
-
-        setFormData({
-            name: "",
-            post: "",
-            description: "",
-            linkedin: "",
-            image: null,
-        });
-
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const refreshUsers = () => {
-    fetchUsers(
-        setLoading,
-        page,
-        curr,
-        setUsers,
-        setTotalPages
-    );
-};
+    };
 
 
     return (
@@ -120,44 +120,48 @@ const refreshUsers = () => {
             <div className="w-full space-y-5 pb-10">
 
                 {/* ================= FILTERS ================= */}
-<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-    {/* FILTER BUTTONS */}
-    <div className="inline-flex flex-wrap gap-2 p-1 rounded-xl bg-secondary dark:bg-dark-secondary border border-border dark:border-dark-border w-fit">
+                    {/* FILTER BUTTONS */}
+                    <div className="inline-flex flex-wrap gap-2 p-1 rounded-xl bg-secondary dark:bg-dark-secondary border border-border
+     dark:border-dark-border w-fit">
 
-        {userType.map((item, index) => (
-            <button
-                key={index}
-                onClick={() => {
-                    setCurr(item);
-                    setPage(1);
-                }}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer
+                        {userType.map((item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => {
+                                    setCurr(item);
+                                    setPage(1);
+                                }}
+                                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer
                                 
                     ${curr === item
-                        ? "bg-primary dark:bg-dark-primary text-primary-foreground dark:text-dark-primary-foreground shadow-md"
-                        : "text-secondary-foreground dark:text-dark-secondary-foreground hover:bg-muted dark:hover:bg-dark-muted"
-                    }
+                                        ? "bg-primary dark:bg-dark-primary text-primary-foreground dark:text-dark-primary-foreground shadow-md"
+                                        : "text-secondary-foreground dark:text-dark-secondary-foreground hover:bg-muted dark:hover:bg-dark-muted"
+                                    }
                 `}
-            >
-                {item}
-            </button>
-        ))}
-    </div>
+                            >
+                                {item}
+                            </button>
+                        ))}
+                    </div>
 
-    {/* ADD BUTTON */}
-    <button
-   onClick={() => {
-    setOpenAddModal(true);
-    setOpenMenu(null);
-}}
-    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary dark:bg-dark-primary text-primary-foreground dark:text-dark-primary-foreground font-medium shadow-md hover:opacity-90 transition-all duration-200"
->
-    + Add
-</button>
-</div>
-{/* ================= TABLE ================= */}
-<div className="w-full rounded-2xl overflow-visible border border-border dark:border-dark-border bg-card dark:bg-dark-card shadow-sm">
+                    {/* ADD BUTTON */}
+
+                    {curr !== "All" && <button
+                        onClick={() => {
+                            setOpenAddModal(true);
+                            setOpenMenu(null);
+                        }}
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary dark:bg-dark-primary text-primary-foreground 
+    dark:text-dark-primary-foreground font-medium shadow-md hover:opacity-90 transition-all duration-200"
+                    >
+                        + Add
+                    </button>}
+                </div>
+                {/* ================= TABLE ================= */}
+                <div className="w-full rounded-2xl overflow-visible border border-border dark:border-dark-border bg-card
+ dark:bg-dark-card shadow-sm">
 
                     {/* ================= LOADING ================= */}
                     {loading ? (
@@ -177,7 +181,8 @@ const refreshUsers = () => {
                         users.map((user, index) => (
                             <div
                                 key={index}
-                                className="relative w-full min-h-14 flex px-4 border-b border-border dark:border-dark-border last:border-none hover:bg-muted/40 dark:hover:bg-dark-muted/40 transition-colors duration-200"
+                                className="relative w-full min-h-14 flex px-4 border-b border-border dark:border-dark-border
+                                 last:border-none hover:bg-muted/40 dark:hover:bg-dark-muted/40 transition-colors duration-200"
                             >
 
                                 {/* NAME */}
@@ -186,8 +191,10 @@ const refreshUsers = () => {
                                 </div>
 
                                 {/* EMAIL */}
-                                <div className="w-[35%] flex items-center py-4 break-all text-muted-foreground dark:text-dark-muted-foreground">
-                                    {user.email || "No Email"}
+                                <div className="w-[35%] flex items-center py-4 break-all text-muted-foreground 
+                                dark:text-dark-muted-foreground">
+                                    {/* user.linkedin is in the schema of the team so thats why in and In */}
+                                    {user.email || user.linkedIn || user.linkedin || "No Email"}
                                 </div>
 
                                 {/* ROLE */}
@@ -225,50 +232,53 @@ const refreshUsers = () => {
                                     {openMenu === user._id && (
                                         <div className="absolute top-14 right-5 z-50 w-52 rounded-xl border border-border dark:border-dark-border bg-card dark:bg-dark-card shadow-2xl overflow-hidden">
 
-                                            {/* MAKE TEAM */}
-                                            <button
-                                                onClick={() =>
-                                                    handleRoleChange(
-                                                        user._id,
-                                                        "team"
-                                                    )
-                                                }
-                                                className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
-                                            >
-                                                <Shield size={16} />
-                                                Make Team
-                                            </button>
 
-                                            {/* MAKE MENTOR */}
-                                            <button
-                                                onClick={() =>
-                                                    handleRoleChange(
-                                                        user._id,
-                                                        "mentor"
-                                                    )
-                                                }
-                                                className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
-                                            >
-                                                <ShieldCheck size={16} />
-                                                Make Mentor
-                                            </button>
+                                            {curr === "All" && (
+                                                <>
+                                                    {(user.role != 'admin') && <button
+                                                        onClick={() => handleRoleChange(user.email, "admin", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)}
+                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                    >
+                                                        <Shield size={16} />
+                                                        Make Admin
+                                                    </button>}
+                                                    {(user.role != 'moderator') && <button
+                                                        onClick={() =>
+                                                            handleRoleChange(user.email, "moderator", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)
+                                                        }
+                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                    >
+                                                        <ShieldCheck size={16} />
+                                                        Make Moderator
+                                                    </button>}
+                                                    {(user.role != 'user') && <button
+                                                        onClick={() =>
+                                                            handleRoleChange(user.email, "user", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)
+                                                        }
+                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                    >
+                                                        <ShieldCheck size={16} />
+                                                        Make User
+                                                    </button>}
+                                                </>
+                                            )}
 
                                             {/* DELETE MEMBER */}
-{curr !== "All" && (
-    <button
-        onClick={() =>
-            handleDeleteMember(
-                user._id,
-                curr,
-                refreshUsers
-            )
-        }
-        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-red-500 hover:bg-red-500/10 transition"
-    >
-        <Ban size={16} />
-        Delete Member
-    </button>
-)}
+                                            {curr !== "All" && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleDeleteMember(
+                                                            user._id,
+                                                            curr,
+                                                            refreshUsers
+                                                        )
+                                                    }
+                                                    className="w-full px-4 py-3 flex items-center gap-3 text-sm text-red-500 hover:bg-red-500/10 transition"
+                                                >
+                                                    <Ban size={16} />
+                                                    Delete Member
+                                                </button>
+                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -302,113 +312,113 @@ const refreshUsers = () => {
                         </button>
                     </div>
                 )}
-                
+
             </div>
             {/* ================= ADD MODAL ================= */}
-{openAddModal && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            {openAddModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
 
-        <div className="w-full max-w-lg rounded-2xl bg-card dark:bg-dark-card border border-border dark:border-dark-border p-6 space-y-5">
+                    <div className="w-full max-w-lg rounded-2xl bg-card dark:bg-dark-card border border-border dark:border-dark-border p-6 space-y-5">
 
-            {/* HEADER */}
-            <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">
-                    Add {curr}
-                </h2>
+                        {/* HEADER */}
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-xl font-semibold">
+                                Add {curr}
+                            </h2>
 
-                <button
-                    onClick={() => setOpenAddModal(false)}
-                    className="text-xl"
-                >
-                    ×
-                </button>
-            </div>
+                            <button
+                                onClick={() => setOpenAddModal(false)}
+                                className="text-xl"
+                            >
+                                ×
+                            </button>
+                        </div>
 
-            {/* NAME */}
-            <input
-                type="text"
-                placeholder="Name"
-                value={formData.name}
-                onChange={(e) =>
-                    setFormData({
-                        ...formData,
-                        name: e.target.value,
-                    })
-                }
-                className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
-            />
+                        {/* NAME */}
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={formData.name}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    name: e.target.value,
+                                })
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
+                        />
 
-            {/* POST */}
-            {curr === "Team" && (
-                <input
-                    type="text"
-                    placeholder="Post"
-                    value={formData.post}
-                    onChange={(e) =>
-                        setFormData({
-                            ...formData,
-                            post: e.target.value,
-                        })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
-                />
+                        {/* POST */}
+                        {curr === "Team" && (
+                            <input
+                                type="text"
+                                placeholder="Post"
+                                value={formData.post}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        post: e.target.value,
+                                    })
+                                }
+                                className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
+                            />
+                        )}
+
+                        {/* DESCRIPTION */}
+                        {curr === "Mentor" && (
+                            <textarea
+                                placeholder="Description"
+                                value={formData.description}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        description: e.target.value,
+                                    })
+                                }
+                                className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none min-h-[120px]"
+                            />
+                        )}
+
+                        {/* LINKEDIN */}
+                        <input
+                            type="text"
+                            placeholder="LinkedIn URL"
+                            value={formData.linkedin}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    linkedin: e.target.value,
+                                })
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
+                        />
+
+                        {/* IMAGE */}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+
+                                console.log(e.target.files[0]);
+
+                                setFormData({
+                                    ...formData,
+                                    image: e.target.files[0],
+                                });
+                            }}
+                            className="w-full"
+                        />
+
+                        {/* SUBMIT */}
+                        <button
+                            onClick={handleAddMember}
+                            className="w-full py-3 rounded-xl bg-primary text-white font-medium"
+                        >
+                            Add {curr}
+                        </button>
+                    </div>
+                </div>
             )}
-
-            {/* DESCRIPTION */}
-            {curr === "Mentor" && (
-                <textarea
-                    placeholder="Description"
-                    value={formData.description}
-                    onChange={(e) =>
-                        setFormData({
-                            ...formData,
-                            description: e.target.value,
-                        })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none min-h-[120px]"
-                />
-            )}
-
-            {/* LINKEDIN */}
-            <input
-                type="text"
-                placeholder="LinkedIn URL"
-                value={formData.linkedin}
-                onChange={(e) =>
-                    setFormData({
-                        ...formData,
-                        linkedin: e.target.value,
-                    })
-                }
-                className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-transparent outline-none"
-            />
-
-            {/* IMAGE */}
-<input
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-
-        console.log(e.target.files[0]);
-
-        setFormData({
-            ...formData,
-            image: e.target.files[0],
-        });
-    }}
-    className="w-full"
-/>
-
-            {/* SUBMIT */}
-            <button
-    onClick={handleAddMember}
-    className="w-full py-3 rounded-xl bg-primary text-white font-medium"
->
-    Add {curr}
-</button>
-        </div>
-    </div>
-)}
         </AdminLayout>
     );
 };

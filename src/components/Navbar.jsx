@@ -11,9 +11,9 @@ import { motion, AnimatePresence } from "framer-motion";
 const Navbar = () => {
   const location = useLocation();
   const isAuthPage =
-  location.pathname === "/login" ||
-  location.pathname === "/register" ||
-  location.pathname === "/verify";
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/verify";
 
   const navigate = useNavigate();
   const { theme, setTheme } = useContext(themeContext);
@@ -78,10 +78,9 @@ const Navbar = () => {
             key={item.name}
             to={item.path}
             className={`px-4 py-2 rounded-lg text-sm font-medium 
-              ${
-                location.pathname === item.path
-                  ? "bg-primary/20 text-primary"
-                  : "hover:bg-black/10 dark:hover:bg-white/10"
+              ${location.pathname === item.path
+                ? "bg-primary/20 text-primary"
+                : "hover:bg-black/10 dark:hover:bg-white/10"
               }
               transition-all`}
           >
@@ -95,7 +94,7 @@ const Navbar = () => {
 
         {/* Theme Toggle */}
         <button
-          className="rounded-md bg-background dark:bg-dark-background px-3 py-3"
+          className="rounded-md bg-secondary dark:bg-dark-secondary px-3 py-3"
           onClick={toggleTheme}
         >
           {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
@@ -103,10 +102,10 @@ const Navbar = () => {
 
         {/* Login / Logout */}
         {isLoggedIn ? (
-  <Button onClick={handleLogout}>Logout</Button>
-) : (
-  <Button onClick={handleLogin}>Login</Button>
-)}
+          <Button onClick={handleLogout}>Logout</Button>
+        ) : (
+          <Button onClick={handleLogin}>Login</Button>
+        )}
       </div>
 
       {/* Mobile Menu Button */}
@@ -134,10 +133,9 @@ const Navbar = () => {
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all
-                    ${
-                      location.pathname === item.path
-                        ? "bg-primary/15 text-primary"
-                        : "hover:bg-black/10 dark:hover:bg-white/10"
+                    ${location.pathname === item.path
+                      ? "bg-primary/15 text-primary"
+                      : "hover:bg-black/10 dark:hover:bg-white/10"
                     }
                   `}
                 >
