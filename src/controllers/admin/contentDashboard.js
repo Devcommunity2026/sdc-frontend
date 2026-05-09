@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages) => {
+export const fetchUsers = async (
+    setLoading,
+    page,
+    curr,
+    setUsers,
+    setTotalPages
+) => {
 
     try {
 
@@ -8,24 +14,18 @@ export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages
 
         let res;
 
-        // ================= All users =================
-        if (curr === "All") {
-            res = await axios.get(
-                `http://localhost:3000/mod/users?page=${page}&limit=10`,
-                {
-                    withCredentials: true
-                }
-            );
-            console.log(res.data)
-            setUsers(res.data.data || []);
-            setTotalPages(res.data.pagination.totalPages);
+        // ================= BLOGS =================
+        if (curr === "Blogs") {
+
+            setUsers([]);
+            setTotalPages(1);
         }
 
         // ================= EVENTS =================
-        else if (curr === "Team") {
+        else if (curr === "Events") {
 
             res = await axios.get(
-                `http://localhost:3000/mod/team?page=${page}&limit=10`,
+                "http://localhost:3000/mod/event?page=1&limit=20",
                 {
                     withCredentials: true
                 }
@@ -36,10 +36,10 @@ export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages
         }
 
         // ================= PROJECTS =================
-        else if (curr === "Mentor") {
+        else if (curr === "Projects") {
 
             res = await axios.get(
-                `http://localhost:3000/mod/mentor?page=${page}&limit=10`,
+                "http://localhost:3000/mod/project?page=1&limit=20", 
                 {
                     withCredentials: true
                 }
@@ -59,22 +59,18 @@ export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages
     }
 };
 
-export const handleRoleChange = async (email, role, setOpenMenu, setLoading, page, curr, setUsers, setTotalPages) => {
+export const handleRoleChange = async (id, role) => {
     try {
-        const res = await axios.post(
-            `http://localhost:3000/admin/editRole/`,
-            {
-                role: role,
-                email: email
-            },
-            { withCredentials: true }
-        );
-        console.log('res', res)
-        if (!res.data.success) {
-            alert(res.data.message)
-        }
+        console.log("Change Role:", id, role);
+
+        // await axios.patch(
+        //     `http://localhost:3000/mod/change-role/${id}`,
+        //     { role },
+        //     { withCredentials: true }
+        // );
+
         setOpenMenu(null);
-        fetchUsers(setLoading, page, curr, setUsers, setTotalPages);
+        fetchUsers();
 
     } catch (error) {
         console.log(error);

@@ -1,11 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { CheckCircle, Send } from "lucide-react";
 
 import Layout from "../components/Layout";
 import Button from "../components/ui/Button";
 import Header from "../components/Header";
-import { domains } from "../data/mockData";
+import { applicationDomain } from "../data/mockData";
 
 const initialForm = {
   name: "",
@@ -19,29 +20,50 @@ const initialForm = {
   linkedin: "",
   domain: "",
   motivation: "",
-  resume: null,
+  resume: "",
 };
 
 const Careers = () => {
   const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
 
     setForm((prev) => ({
       ...prev,
-      [name]: files ? files[0] : value,
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("========== FORM SUBMITTED ==========");
-    console.log(form);
+    try {
+      setLoading(true);
 
-    setSubmitted(true);
+      const response = await axios.post(
+        "http://localhost:3000/public/apply",
+        form
+      );
+
+      if (response.data.success) {
+        setSubmitted(true);
+        setForm(initialForm);
+      }
+
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        error?.response?.data?.message ||
+        "Unable To Submit Application"
+      );
+
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass = `
@@ -49,7 +71,6 @@ const Careers = () => {
     bg-background text-foreground placeholder:text-muted-foreground
     border border-border
     focus:ring-2 focus:ring-primary/30 focus:border-primary
-
     dark:bg-dark-background
     dark:text-dark-foreground
     dark:placeholder:text-dark-muted-foreground
@@ -70,18 +91,9 @@ const Careers = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="
-              text-center max-w-md w-full rounded-3xl p-10 border
-              bg-card border-border
-              dark:bg-dark-card dark:border-dark-border
-            "
+            className="text-center max-w-md w-full rounded-3xl p-10 border bg-card border-border dark:bg-dark-card dark:border-dark-border"
           >
-            <div
-              className="
-                w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-6
-                bg-primary dark:bg-dark-primary
-              "
-            >
+            <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-primary dark:bg-dark-primary">
               <CheckCircle
                 size={40}
                 className="text-primary-foreground dark:text-dark-primary-foreground"
@@ -103,14 +115,12 @@ const Careers = () => {
 
   return (
     <Layout>
-      {/* Hero */}
       <Header
         heading1="Join "
         heading2="Our Community"
         subtext="Fill out the application form below and become part of our developer community."
       />
 
-      {/* Form Section */}
       <section className="py-16 bg-muted dark:bg-dark-secondary">
         <div className="container mx-auto px-4 max-w-3xl">
 
@@ -119,13 +129,9 @@ const Careers = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="
-              rounded-3xl p-6 md:p-10 space-y-6 border shadow-sm
-              bg-card border-border
-              dark:bg-dark-card dark:border-dark-border
-            "
+            className="rounded-3xl p-6 md:p-10 space-y-6 border shadow-sm bg-card border-border dark:bg-dark-card dark:border-dark-border"
           >
-            {/* Heading */}
+
             <div>
               <h2 className="text-3xl font-bold text-foreground dark:text-dark-foreground">
                 Application Form
@@ -136,7 +142,6 @@ const Careers = () => {
               </p>
             </div>
 
-            {/* Basic Details */}
             <div className="grid sm:grid-cols-2 gap-5">
 
               <div>
@@ -226,7 +231,6 @@ const Careers = () => {
 
             </div>
 
-            {/* Skills */}
             <div>
               <label className={labelClass}>Technical Skills *</label>
 
@@ -240,7 +244,6 @@ const Careers = () => {
               />
             </div>
 
-            {/* Social Links */}
             <div className="grid sm:grid-cols-2 gap-5">
 
               <div>
@@ -269,21 +272,20 @@ const Careers = () => {
 
             </div>
 
-            {/* Resume Upload */}
             <div>
-              <label className={labelClass}>Upload Resume *</label>
+              <label className={labelClass}>Resume Link *</label>
 
               <input
-                type="file"
+                type="url"
                 name="resume"
-                accept=".pdf,.doc,.docx"
                 required
+                value={form.resume}
                 onChange={handleChange}
                 className={inputClass}
+                placeholder="https://drive.google.com/..."
               />
             </div>
 
-            {/* Domain */}
             <div>
               <label className={labelClass}>Domain Interested In *</label>
 
@@ -296,15 +298,14 @@ const Careers = () => {
               >
                 <option value="">Select Domain</option>
 
-                {domains.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.title}
+                {applicationDomain.map((element,index) => (
+                  <option key={index} value={element}>
+                    {element }
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Motivation */}
             <div>
               <label className={labelClass}>
                 Why do you want to join? *
@@ -321,14 +322,14 @@ const Careers = () => {
               />
             </div>
 
-            {/* Submit */}
             <Button
               type="submit"
               size="lg"
+              disabled={loading}
               className="w-full flex items-center justify-center gap-2"
             >
               <Send size={16} />
-              Submit Application
+              {loading ? "Submitting..." : "Submit Application"}
             </Button>
 
           </motion.form>
