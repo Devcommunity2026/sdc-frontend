@@ -1,36 +1,54 @@
 import axios from "axios";
 
-export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages) => {
+export const fetchUsers = async (
+    setLoading,
+    page,
+    curr,
+    setUsers,
+    setTotalPages
+) => {
+
     try {
+
         setLoading(true);
 
-        const res = await axios.get(
-            `http://localhost:3000/mod/users?page=${page}&limit=10`,
-            {
-                withCredentials: true,
-            }
-        );
+        let res;
 
-        let fetchedUsers = res.data.data || [];
+        // ================= BLOGS =================
+        if (curr === "Blogs") {
 
-        if (curr !== "All") {
-            fetchedUsers = fetchedUsers.filter(
-                (user) =>
-                    user.role.toLowerCase() === curr.toLowerCase()
-            );
+            setUsers([]);
+            setTotalPages(1);
         }
 
-        setUsers(fetchedUsers);
+        // ================= EVENTS =================
+        else if (curr === "Events") {
 
-        if (fetchedUsers.length === 0) {
-            setTotalPages(0);
-        } else {
-            setTotalPages(res.data.pagination.totalPages || 1);
+            res = await axios.get(
+                "http://localhost:3000/public/event?page=1&limit=20"
+            );
+
+            setUsers(res.data.data || []);
+            setTotalPages(1);
+        }
+
+        // ================= PROJECTS =================
+        else if (curr === "Projects") {
+
+            res = await axios.get(
+                "http://localhost:3000/public/project?page=1&limit=20"
+            );
+
+            setUsers(res.data.data || []);
+            setTotalPages(1);
         }
 
     } catch (error) {
+
         console.log(error);
+
     } finally {
+
         setLoading(false);
     }
 };
@@ -67,6 +85,84 @@ export const handleBanUser = async (id) => {
         fetchUsers();
 
     } catch (error) {
+        console.log(error);
+    }
+};
+
+export const handleDeleteMember = async (
+    id,
+    curr,
+    fetchAgain
+) => {
+
+    try {
+
+        // TEAM DELETE
+        if (curr === "Team") {
+
+            await axios.post(
+                "http://localhost:3000/edit/removeCoreTeamMember",
+                { id },
+                {
+                    withCredentials: true,
+                }
+            );
+        }
+
+        // MENTOR DELETE
+        else if (curr === "Mentor") {
+
+            await axios.post(
+                "http://localhost:3000/edit/removeMentor",
+                { id },
+                {
+                    withCredentials: true,
+                }
+            );
+        }
+
+        fetchAgain();
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const handleDeleteContent = async (
+    id,
+    curr,
+    refreshUsers
+) => {
+
+    try {
+
+        // ================= EVENT DELETE =================
+        if (curr === "Events") {
+
+            await axios.post(
+                "http://localhost:3000/edit/removeEvent",
+                { id },
+                {
+                    withCredentials: true,
+                }
+            );
+        }
+
+        // ================= PROJECT DELETE =================
+        else if (curr === "Projects") {
+
+            await axios.post(
+                "http://localhost:3000/edit/removeProject",
+                { id },
+                {
+                    withCredentials: true,
+                }
+            );
+        }
+
+        refreshUsers();
+
+    } catch (error) {
+
         console.log(error);
     }
 };
