@@ -4,7 +4,7 @@ export const handelLogin = async (e, email, password) => {
     e.preventDefault();
     try {
         const res = await axios.post(
-            "http://localhost:3000/auth/login",
+            `http://localhost:3000/auth/login`,
             { email, password },
             { withCredentials: true }
         );

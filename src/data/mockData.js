@@ -7,6 +7,12 @@ export const communityStats = [
   { label: "Mentors", value: 12, suffix: "+" },
 ];
 
+export const applicationDomain = [
+    "Web Development",
+    "AI / Machine Learning",
+    "Cybersecurity",
+    "Mobile App Development",
+  ]
 export const domains = [
   {
     id: "web-dev",

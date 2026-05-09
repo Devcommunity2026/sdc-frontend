@@ -6,7 +6,7 @@ import { CheckCircle, Send } from "lucide-react";
 import Layout from "../components/Layout";
 import Button from "../components/ui/Button";
 import Header from "../components/Header";
-import { domains } from "../data/mockData";
+import { applicationDomain } from "../data/mockData";
 
 const initialForm = {
   name: "",
@@ -298,9 +298,9 @@ const Careers = () => {
               >
                 <option value="">Select Domain</option>
 
-                {domains.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.title}
+                {applicationDomain.map((element,index) => (
+                  <option key={index} value={element}>
+                    {element }
                   </option>
                 ))}
               </select>

@@ -72,7 +72,7 @@ const MentorForm = () => {
             );
 
             const res = await axios.post(
-                "http://localhost:3000/edit/addMentor",
+                `http://localhost:3000/edit/addMentor`,
                 sendData,
                 {
                     withCredentials: true,

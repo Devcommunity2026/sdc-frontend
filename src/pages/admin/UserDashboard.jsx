@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers, handleRoleChange, handleBanUser, handleDeleteMember, } from "../../controllers/admin/userDashboard";
+import {
+    fetchUsers,
+    handleRoleChange,
+    handleBanUser,
+    handleDeleteMember,
+} from "../../controllers/admin/userDashboard";
+
 import {
     Shield,
     ShieldCheck,
@@ -10,8 +16,8 @@ import {
 import AdminLayout from "../../components/admin/AdminLayout";
 import axios from "axios";
 
-
 const UserDashboard = () => {
+
     const userType = ["All", "Team", "Mentor"];
 
     const [curr, setCurr] = useState("All");
@@ -24,6 +30,9 @@ const UserDashboard = () => {
 
     const [openMenu, setOpenMenu] = useState(null);
     const [openAddModal, setOpenAddModal] = useState(false);
+
+    // SUBMIT LOADING
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -40,6 +49,8 @@ const UserDashboard = () => {
     const handleAddMember = async () => {
 
         try {
+
+            setSubmitLoading(true);
 
             const data = new FormData();
 
@@ -100,7 +111,12 @@ const UserDashboard = () => {
             });
 
         } catch (error) {
+
             console.log(error);
+
+        } finally {
+
+            setSubmitLoading(false);
         }
     };
 
@@ -114,18 +130,19 @@ const UserDashboard = () => {
         );
     };
 
-
     return (
         <AdminLayout>
+
             <div className="w-full space-y-5 pb-10">
 
                 {/* ================= FILTERS ================= */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
                     {/* FILTER BUTTONS */}
-                    <div className="inline-flex flex-wrap gap-2 p-1 rounded-xl bg-secondary dark:bg-dark-secondary border border-border
-     dark:border-dark-border w-fit">
-
+                    <div
+                        className="inline-flex flex-wrap gap-2 p-1 rounded-xl bg-secondary dark:bg-dark-secondary border border-border
+                        dark:border-dark-border w-fit"
+                    >
                         {userType.map((item, index) => (
                             <button
                                 key={index}
@@ -135,11 +152,11 @@ const UserDashboard = () => {
                                 }}
                                 className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer
                                 
-                    ${curr === item
+                                ${curr === item
                                         ? "bg-primary dark:bg-dark-primary text-primary-foreground dark:text-dark-primary-foreground shadow-md"
                                         : "text-secondary-foreground dark:text-dark-secondary-foreground hover:bg-muted dark:hover:bg-dark-muted"
                                     }
-                `}
+                                `}
                             >
                                 {item}
                             </button>
@@ -147,21 +164,25 @@ const UserDashboard = () => {
                     </div>
 
                     {/* ADD BUTTON */}
-
-                    {curr !== "All" && <button
-                        onClick={() => {
-                            setOpenAddModal(true);
-                            setOpenMenu(null);
-                        }}
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary dark:bg-dark-primary text-primary-foreground 
-    dark:text-dark-primary-foreground font-medium shadow-md hover:opacity-90 transition-all duration-200"
-                    >
-                        + Add
-                    </button>}
+                    {curr !== "All" && (
+                        <button
+                            onClick={() => {
+                                setOpenAddModal(true);
+                                setOpenMenu(null);
+                            }}
+                            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary dark:bg-dark-primary text-primary-foreground 
+                            dark:text-dark-primary-foreground font-medium shadow-md hover:opacity-90 transition-all duration-200"
+                        >
+                            + Add
+                        </button>
+                    )}
                 </div>
+
                 {/* ================= TABLE ================= */}
-                <div className="w-full rounded-2xl overflow-visible border border-border dark:border-dark-border bg-card
- dark:bg-dark-card shadow-sm">
+                <div
+                    className="w-full rounded-2xl overflow-visible border border-border dark:border-dark-border bg-card
+                    dark:bg-dark-card shadow-sm"
+                >
 
                     {/* ================= LOADING ================= */}
                     {loading ? (
@@ -182,7 +203,7 @@ const UserDashboard = () => {
                             <div
                                 key={index}
                                 className="relative w-full min-h-14 flex px-4 border-b border-border dark:border-dark-border
-                                 last:border-none hover:bg-muted/40 dark:hover:bg-dark-muted/40 transition-colors duration-200"
+                                last:border-none hover:bg-muted/40 dark:hover:bg-dark-muted/40 transition-colors duration-200"
                             >
 
                                 {/* NAME */}
@@ -190,11 +211,15 @@ const UserDashboard = () => {
                                     {user.name}
                                 </div>
 
-                                {/* EMAIL */}
-                                <div className="w-[35%] flex items-center py-4 break-all text-muted-foreground 
-                                dark:text-dark-muted-foreground">
-                                    {/* user.linkedin is in the schema of the team so thats why in and In */}
-                                    {user.email || user.linkedIn || user.linkedin || "No Email"}
+                                {/* EMAIL / LINKEDIN */}
+                                <div
+                                    className="w-[35%] flex items-center py-4 break-all text-muted-foreground 
+                                    dark:text-dark-muted-foreground"
+                                >
+                                    {user.email ||
+                                        user.linkedIn ||
+                                        user.linkedin ||
+                                        "No Email"}
                                 </div>
 
                                 {/* ROLE */}
@@ -232,34 +257,70 @@ const UserDashboard = () => {
                                     {openMenu === user._id && (
                                         <div className="absolute top-14 right-5 z-50 w-52 rounded-xl border border-border dark:border-dark-border bg-card dark:bg-dark-card shadow-2xl overflow-hidden">
 
-
                                             {curr === "All" && (
                                                 <>
-                                                    {(user.role != 'admin') && <button
-                                                        onClick={() => handleRoleChange(user.email, "admin", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)}
-                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
-                                                    >
-                                                        <Shield size={16} />
-                                                        Make Admin
-                                                    </button>}
-                                                    {(user.role != 'moderator') && <button
-                                                        onClick={() =>
-                                                            handleRoleChange(user.email, "moderator", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)
-                                                        }
-                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
-                                                    >
-                                                        <ShieldCheck size={16} />
-                                                        Make Moderator
-                                                    </button>}
-                                                    {(user.role != 'user') && <button
-                                                        onClick={() =>
-                                                            handleRoleChange(user.email, "user", setOpenMenu, setLoading, page, curr, setUsers, setTotalPages)
-                                                        }
-                                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
-                                                    >
-                                                        <ShieldCheck size={16} />
-                                                        Make User
-                                                    </button>}
+                                                    {user.role !== "admin" && (
+                                                        <button
+                                                            onClick={() =>
+                                                                handleRoleChange(
+                                                                    user.email,
+                                                                    "admin",
+                                                                    setOpenMenu,
+                                                                    setLoading,
+                                                                    page,
+                                                                    curr,
+                                                                    setUsers,
+                                                                    setTotalPages
+                                                                )
+                                                            }
+                                                            className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                        >
+                                                            <Shield size={16} />
+                                                            Make Admin
+                                                        </button>
+                                                    )}
+
+                                                    {user.role !== "moderator" && (
+                                                        <button
+                                                            onClick={() =>
+                                                                handleRoleChange(
+                                                                    user.email,
+                                                                    "moderator",
+                                                                    setOpenMenu,
+                                                                    setLoading,
+                                                                    page,
+                                                                    curr,
+                                                                    setUsers,
+                                                                    setTotalPages
+                                                                )
+                                                            }
+                                                            className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                        >
+                                                            <ShieldCheck size={16} />
+                                                            Make Moderator
+                                                        </button>
+                                                    )}
+
+                                                    {user.role !== "user" && (
+                                                        <button
+                                                            onClick={() =>
+                                                                handleRoleChange(
+                                                                    user.email,
+                                                                    "user",
+                                                                    setOpenMenu,
+                                                                    setLoading,
+                                                                    page,
+                                                                    curr,
+                                                                    setUsers,
+                                                                    setTotalPages
+                                                                )
+                                                            }
+                                                            className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                                        >
+                                                            <ShieldCheck size={16} />
+                                                            Make User
+                                                        </button>
+                                                    )}
                                                 </>
                                             )}
 
@@ -312,8 +373,8 @@ const UserDashboard = () => {
                         </button>
                     </div>
                 )}
-
             </div>
+
             {/* ================= ADD MODAL ================= */}
             {openAddModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
@@ -322,6 +383,7 @@ const UserDashboard = () => {
 
                         {/* HEADER */}
                         <div className="flex items-center justify-between">
+
                             <h2 className="text-xl font-semibold">
                                 Add {curr}
                             </h2>
@@ -412,9 +474,27 @@ const UserDashboard = () => {
                         {/* SUBMIT */}
                         <button
                             onClick={handleAddMember}
-                            className="w-full py-3 rounded-xl bg-primary text-white font-medium"
+                            disabled={submitLoading}
+                            className={`w-full py-3 rounded-xl font-medium transition-all duration-200
+                            
+                                ${submitLoading
+                                    ? "bg-primary/70 cursor-not-allowed text-white"
+                                    : "bg-primary hover:opacity-90 text-white"
+                                }
+                            `}
                         >
-                            Add {curr}
+                            {submitLoading ? (
+                                <div className="flex items-center justify-center gap-2">
+
+                                    <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+
+                                    <span>
+                                        Adding {curr}...
+                                    </span>
+                                </div>
+                            ) : (
+                                `Add ${curr}`
+                            )}
                         </button>
                     </div>
                 </div>
