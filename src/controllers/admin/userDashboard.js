@@ -137,6 +137,7 @@ export const handleDeleteMember = async (
         console.log(error);
     }
 };
+
 export const handleDeleteContent = async (
     id,
     curr,
@@ -174,5 +175,79 @@ export const handleDeleteContent = async (
     } catch (error) {
 
         console.log(error);
+    }
+};
+
+export const handleAddMember = async ({
+    formData,
+    curr,
+    setSubmitLoading,
+    setLoading,
+    page,
+    setUsers,
+    setTotalPages,
+    setOpenAddModal,
+    setFormData,
+    fetchUsers
+}) => {
+    try {
+
+        setSubmitLoading(true);
+
+        const data = new FormData();
+
+        data.append("name", formData.name);
+        data.append("linkedin", formData.linkedin);
+        data.append("image", formData.image);
+
+        if (curr === "Team") {
+            data.append("post", formData.post);
+
+            await axios.post(
+                "http://localhost:3000/edit/addCoreTeamMember",
+                data,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+        } else if (curr === "Mentor") {
+            data.append("description", formData.description);
+
+            await axios.post(
+                "http://localhost:3000/edit/addMentor",
+                data,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+        }
+
+        await fetchUsers(
+            setLoading,
+            page,
+            curr,
+            setUsers,
+            setTotalPages
+        );
+
+        setOpenAddModal(false);
+
+        setFormData({
+            name: "",
+            post: "",
+            description: "",
+            linkedin: "",
+            image: null,
+        });
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setSubmitLoading(false);
     }
 };
