@@ -1,20 +1,27 @@
 import React from 'react'
 import { handleAddMember } from '../../controllers/admin/userDashboard';
-
+import { useState } from 'react';
 
 const UserAdd = ({
     curr,
     setOpenAddModal,
-    formData,
-    setFormData,
-    submitLoading,
-    setSubmitLoading,
     setLoading,
     page,
     setUsers,
     setTotalPages,
     fetchUsers
 }) => {
+
+    const [formData, setFormData] = useState({
+        name: "",
+        post: "",
+        description: "",
+        linkedin: "",
+        image: null,
+    });
+    const [submitLoading, setSubmitLoading] = useState(false);
+   
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
             <div className="w-full max-w-lg rounded-2xl bg-card dark:bg-dark-card border border-border dark:border-dark-border p-6 space-y-5">

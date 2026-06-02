@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import {
     fetchUsers,
     handleRoleChange,
-    handleBanUser,
-    handleDeleteMember,
 } from "../../controllers/admin/userDashboard";
 
 import Slider from "../../components/admin/Slider";
 import UserAdd from "../../components/admin/userAdd";
 import UserRow from "../../components/admin/userRow";
 import Paginator from "../../components/ui/Paginator";
+import TableHeader from "../../components/TableHeader";
 
 import { Shield, ShieldCheck, Ban, MoreVertical, } from "lucide-react";
 
 import AdminLayout from "../../components/admin/AdminLayout";
-import axios from "axios";
 
 const UserDashboard = () => {
 
@@ -31,21 +29,15 @@ const UserDashboard = () => {
     const [openMenu, setOpenMenu] = useState(null);
     const [openAddModal, setOpenAddModal] = useState(false);
 
-    const [submitLoading, setSubmitLoading] = useState(false);
+    const tableHeaders = ["Name", "Email", "Status", "Actions"]
 
-    const [formData, setFormData] = useState({
-        name: "",
-        post: "",
-        description: "",
-        linkedin: "",
-        image: null,
-    });
+
 
     useEffect(() => {
         fetchUsers(setLoading, page, curr, setUsers, setTotalPages);
     }, [page, curr]);
 
-    
+
     const refreshUsers = () => {
         fetchUsers(
             setLoading,
@@ -81,10 +73,9 @@ const UserDashboard = () => {
                 </div>
 
                 {/* ================= TABLE ================= */}
-
                 <div
-                    className="w-full rounded-2xl overflow-visible border border-border dark:border-dark-border bg-card
-                    dark:bg-dark-card shadow-sm"
+                    className="w-full rounded-2xl overflow-hidden border border-border dark:border-dark-border bg-card
+                    dark:bg-dark-card shadow-sm "
                 >
 
                     {/* ================= LOADING ================= */}
@@ -102,24 +93,53 @@ const UserDashboard = () => {
                     ) : (
 
                         /* ================= DATA ================= */
-                        users.map((user, index) => (
-                            <UserRow
-                                key={user._id}
-                                user={user}
-                                index={index}
-                                curr={curr}
-                                openMenu={openMenu}
-                                setOpenMenu={setOpenMenu}
-                                setLoading={setLoading}
-                                page={page}
-                                setUsers={setUsers}
-                                setTotalPages={setTotalPages}
-                                refreshUsers={refreshUsers}
-                                handleRoleChange={handleRoleChange}
-                                handleDeleteMember={handleDeleteMember}
-                            />
-                        ))
-                    )}
+                        <>
+
+                            <div
+                                className="relative w-full min-h-14 flex px-4 border-b border-border dark:border-dark-borde last:border-none bg-muted/40  transition-colors duration-200 font-semibold"
+                            >
+                                {/* NAME */}
+                                <div className="w-[25%] flex items-center py-4 text-card-foreground dark:text-dark-card-foreground font-medium">
+                                    Name
+                                </div>
+
+                                {/* EMAIL / LINKEDIN */}
+                                <div
+                                    className="w-[35%] flex items-center py-4 break-all text-card-foreground dark:text-dark-muted-foreground"
+                                >
+                                    Details
+                                </div>
+
+                                {/* ROLE */}
+                                <div className="w-[20%] flex items-center py-4">
+                                    Role
+                                </div>
+
+                                {/* ACTIONS */}
+                                <div className="w-[20%] flex items-center justify-center relative">
+                                    Action
+                                </div>
+                            </div>
+                            {
+                                users.map((user, index) => (
+                                    <UserRow
+                                        key={user._id}
+                                        user={user}
+                                        index={index}
+                                        curr={curr}
+                                        openMenu={openMenu}
+                                        setOpenMenu={setOpenMenu}
+                                        setLoading={setLoading}
+                                        page={page}
+                                        setUsers={setUsers}
+                                        setTotalPages={setTotalPages}
+                                        refreshUsers={refreshUsers}
+                                    />
+                                ))
+                            }
+                        </>
+                    )
+                    }
                 </div>
 
                 {/* ================= PAGINATION ================= */}
@@ -135,10 +155,6 @@ const UserDashboard = () => {
                 <UserAdd
                     curr={curr}
                     setOpenAddModal={setOpenAddModal}
-                    formData={formData}
-                    setFormData={setFormData}
-                    submitLoading={submitLoading}
-                    setSubmitLoading={setSubmitLoading}
                     setLoading={setLoading}
                     page={page}
                     setUsers={setUsers}

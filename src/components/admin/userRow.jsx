@@ -5,7 +5,7 @@ import {
     ShieldCheck,
     Ban
 } from 'lucide-react'
-
+import { handleRoleChange, handleDeleteMember } from '../../controllers/admin/userDashboard'
 const UserRow = ({
     user,
     index,
@@ -17,8 +17,6 @@ const UserRow = ({
     setUsers,
     setTotalPages,
     refreshUsers,
-    handleRoleChange,
-    handleDeleteMember
 }) => {
     return (
         <div
@@ -36,8 +34,7 @@ const UserRow = ({
                 className="w-[35%] flex items-center py-4 break-all text-muted-foreground
                 dark:text-dark-muted-foreground"
             >
-                {user.email ||
-                    user.linkedIn ||
+                {user.email || user.linkedIn ||
                     user.linkedin ||
                     "No Email"}
             </div>
@@ -164,3 +161,5 @@ const UserRow = ({
 }
 
 export default UserRow
+
+
