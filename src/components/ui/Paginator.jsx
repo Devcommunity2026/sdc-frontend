@@ -6,7 +6,7 @@ const Paginator = ({
     totalPages
 }) => {
     return (
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 p-5">
             <button
                 disabled={page === 1}
                 onClick={() => setPage((prev) => prev - 1)}

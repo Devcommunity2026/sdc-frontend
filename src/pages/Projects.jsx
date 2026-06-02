@@ -4,6 +4,8 @@ import axios from "axios";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
 import ProjectCard from "../components/ui/ProjectCard";
+import Paginator from '../components/ui/Paginator'
+import { fetchProjects } from "../controllers/detailsRequest";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -14,31 +16,12 @@ const Projects = () => {
 
   const limit = 6;
 
-  const fetchProjects = async (currentPage) => {
-    try {
-      setLoading(true);
-
-      const res = await axios.get(
-        `http://localhost:3000/public/project?page=${currentPage}&limit=${limit}`
-      );
-
-      if (res.data.success) {
-        setProjects(res.data.data);
-        setTotalPages(res.data.pagination.totalPages);
-      }
-    } catch (error) {
-      console.error("Failed to fetch projects", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchProjects(page);
+    fetchProjects(page, limit, setProjects, setTotalPages, setLoading);
   }, [page]);
 
   return (
-    <Layout>
+    <Layout >
       <Header
         heading1={"Our "}
         heading2={"Projects"}
@@ -63,59 +46,8 @@ const Projects = () => {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 pb-10">
-          {/* Prev */}
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((prev) => prev - 1)}
-            className="
-              px-4 py-2 rounded-xl border
-              border-border dark:border-dark-border
-              disabled:opacity-50
-              hover:bg-secondary dark:hover:bg-dark-secondary
-              transition-all
-            "
-          >
-            Prev
-          </button>
+      {totalPages > 1 && <Paginator page={page} setPage={setPage} totalPages={totalPages} />}
 
-          {/* Page Numbers */}
-          <div className="flex items-center gap-2">
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i + 1)}
-                className={`
-                  w-10 h-10 rounded-xl border transition-all
-                  ${
-                    page === i + 1
-                      ? "bg-primary text-white border-primary"
-                      : "border-border dark:border-dark-border hover:bg-secondary dark:hover:bg-dark-secondary"
-                  }
-                `}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-
-          {/* Next */}
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((prev) => prev + 1)}
-            className="
-              px-4 py-2 rounded-xl border
-              border-border dark:border-dark-border
-              disabled:opacity-50
-              hover:bg-secondary dark:hover:bg-dark-secondary
-              transition-all
-            "
-          >
-            Next
-          </button>
-        </div>
-      )}
     </Layout>
   );
 };

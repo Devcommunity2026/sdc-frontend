@@ -11,6 +11,7 @@ const MentorCard = ({ mentor, index }) => {
       whileHover={{ y: -6 }}
       className="
         relative overflow-hidden rounded-3xl
+        max-w-sm mx-auto
         border shadow-md transition-all duration-300
         bg-card text-card-foreground border-border
         hover:shadow-xl
@@ -18,15 +19,14 @@ const MentorCard = ({ mentor, index }) => {
       "
     >
       {/* Card Content */}
-      <div className="px-6 pt-10 pb-8 text-center">
-
+      <div className="px-5 pt-8 pb-6 text-center">
         {/* Profile Image */}
-        <div className="relative w-fit mx-auto mb-5">
+        <div className="relative w-fit mx-auto mb-4">
           <img
             src={mentor.profileImage}
             alt={mentor.name}
             className="
-              w-28 h-28 rounded-full object-cover
+              w-24 h-24 rounded-full object-cover
               border-[3px]
               border-primary
               shadow-lg
@@ -40,21 +40,21 @@ const MentorCard = ({ mentor, index }) => {
             rel="noopener noreferrer"
             className="
               absolute bottom-0 right-0
-              w-10 h-10 rounded-full
+              w-8 h-8 rounded-full
               flex items-center justify-center
               bg-primary text-white
               shadow-md
               hover:scale-110 transition-all
             "
           >
-            <FaLinkedinIn size={16} />
+            <FaLinkedinIn size={14} />
           </a>
         </div>
 
         {/* Name */}
         <h2
           className="
-            text-2xl font-bold mb-1
+            text-xl font-bold mb-1
             text-foreground dark:text-dark-foreground
           "
         >
@@ -65,7 +65,7 @@ const MentorCard = ({ mentor, index }) => {
         <p
           className="
             text-primary dark:text-dark-primary
-            font-medium text-lg mb-5
+            font-medium text-base mb-4
           "
         >
           {mentor.Position}
@@ -74,7 +74,7 @@ const MentorCard = ({ mentor, index }) => {
         {/* Role Description */}
         <p
           className="
-            text-base leading-relaxed
+            text-sm leading-relaxed
             text-muted-foreground
             dark:text-dark-muted-foreground
           "
