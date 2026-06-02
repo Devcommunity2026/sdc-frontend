@@ -3,8 +3,8 @@ import axios from "axios";
 
 import Layout from "../components/Layout";
 import HomeHeader from "../components/HomeHeader";
+import { fetchHomeData } from "../controllers/homeRequest";
 
-// UI Components
 import Button from "../components/ui/Button";
 import DomainCard from "../components/ui/DomainCard";
 import EventCard from "../components/ui/EventCard";
@@ -41,59 +41,9 @@ const Home = () => {
     },
   ]);
 
-  // Fetch Home Page Data
-  const fetchHomeData = async () => {
-    try {
-      const [eventsRes, mentorsRes, statsRes] = await Promise.all([
-        axios.get(
-          "http://localhost:3000/public/event?page=1&limit=3"
-        ),
-
-        axios.get(
-          "http://localhost:3000/public/mentor?page=1&limit=3"
-        ),
-
-        axios.get("http://localhost:3000/public/stats"),
-      ]);
-
-      // Events
-      if (eventsRes.data.success) {
-        setEvents(eventsRes.data.data);
-      }
-
-      // Mentors
-      if (mentorsRes.data.success) {
-        setMentors(mentorsRes.data.data);
-      }
-
-      // Stats
-      if (statsRes.data.success) {
-        setCommunityStats([
-          {
-            label: "Users",
-            value: statsRes.data.data.users || 0,
-          },
-          {
-            label: "Mentors",
-            value: statsRes.data.data.mentors || 0,
-          },
-          {
-            label: "Members",
-            value: statsRes.data.data.members || 0,
-          },
-          {
-            label: "Domains",
-            value: 6,
-          },
-        ]);
-      }
-    } catch (error) {
-      console.error("Failed to fetch home data", error);
-    }
-  };
 
   useEffect(() => {
-    fetchHomeData();
+    fetchHomeData({ setEvents, setMentors, setCommunityStats });
   }, []);
 
   return (
