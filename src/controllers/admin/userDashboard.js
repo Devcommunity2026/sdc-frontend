@@ -1,33 +1,39 @@
 import axios from "axios";
 
-export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages) => {
+const API_URL = import.meta.env.VITE_API_URL;
 
+export const fetchUsers = async (
+    setLoading,
+    page,
+    curr,
+    setUsers,
+    setTotalPages
+) => {
     try {
-
         setLoading(true);
 
         let res;
 
-        // ================= All users =================
+        // ================= ALL USERS =================
         if (curr === "All") {
             res = await axios.get(
-                `http://localhost:3000/mod/users?page=${page}&limit=10`,
+                `${API_URL}/mod/users?page=${page}&limit=10`,
                 {
-                    withCredentials: true
+                    withCredentials: true,
                 }
             );
-            console.log(res.data)
+
+            console.log(res.data);
             setUsers(res.data.data || []);
-            setTotalPages(res.data.pagination.totalPages);
+            setTotalPages(res.data.pagination?.totalPages || 1);
         }
 
-        // ================= EVENTS =================
+        // ================= TEAM =================
         else if (curr === "Team") {
-
             res = await axios.get(
-                `http://localhost:3000/mod/team?page=${page}&limit=10`,
+                `${API_URL}/mod/team?page=${page}&limit=10`,
                 {
-                    withCredentials: true
+                    withCredentials: true,
                 }
             );
 
@@ -35,65 +41,85 @@ export const fetchUsers = async (setLoading, page, curr, setUsers, setTotalPages
             setTotalPages(1);
         }
 
-        // ================= PROJECTS =================
+        // ================= MENTOR =================
         else if (curr === "Mentor") {
-
             res = await axios.get(
-                `http://localhost:3000/mod/mentor?page=${page}&limit=10`,
+                `${API_URL}/mod/mentor?page=${page}&limit=10`,
                 {
-                    withCredentials: true
+                    withCredentials: true,
                 }
             );
 
             setUsers(res.data.data || []);
             setTotalPages(1);
         }
-
     } catch (error) {
-
         console.log(error);
-
     } finally {
-
         setLoading(false);
     }
 };
 
-export const handleRoleChange = async (email, role, setOpenMenu, setLoading, page, curr, setUsers, setTotalPages) => {
+export const handleRoleChange = async (
+    email,
+    role,
+    setOpenMenu,
+    setLoading,
+    page,
+    curr,
+    setUsers,
+    setTotalPages
+) => {
     try {
         const res = await axios.post(
-            `http://localhost:3000/admin/editRole/`,
+            `${API_URL}/admin/editRole`,
             {
-                role: role,
-                email: email
+                role,
+                email,
             },
-            { withCredentials: true }
+            {
+                withCredentials: true,
+            }
         );
-        console.log('res', res)
-        if (!res.data.success) {
-            alert(res.data.message)
-        }
-        setOpenMenu(null);
-        fetchUsers(setLoading, page, curr, setUsers, setTotalPages);
 
+        console.log("res", res);
+
+        if (!res.data.success) {
+            alert(res.data.message);
+        }
+
+        setOpenMenu(null);
+
+        fetchUsers(
+            setLoading,
+            page,
+            curr,
+            setUsers,
+            setTotalPages
+        );
     } catch (error) {
         console.log(error);
     }
 };
 
-export const handleBanUser = async (id) => {
+export const handleBanUser = async (
+    id,
+    setOpenMenu,
+    refreshUsers
+) => {
     try {
         console.log("Ban User:", id);
 
-        // await axios.patch(
-        //     `http://localhost:3000/mod/ban-user/${id}`,
-        //     {},
-        //     { withCredentials: true }
-        // );
+        await axios.patch(
+            `${API_URL}/mod/ban-user/${id}`,
+            {},
+            {
+                withCredentials: true,
+            }
+        );
 
-        setOpenMenu(null);
-        fetchUsers();
-
+        setOpenMenu?.(null);
+        refreshUsers?.();
     } catch (error) {
         console.log(error);
     }
@@ -104,14 +130,11 @@ export const handleDeleteMember = async (
     curr,
     fetchAgain
 ) => {
-
     try {
-
-        // TEAM DELETE
+        // ================= TEAM DELETE =================
         if (curr === "Team") {
-
             await axios.post(
-                "http://localhost:3000/edit/removeCoreTeamMember",
+                `${API_URL}/edit/removeCoreTeamMember`,
                 { id },
                 {
                     withCredentials: true,
@@ -119,11 +142,10 @@ export const handleDeleteMember = async (
             );
         }
 
-        // MENTOR DELETE
+        // ================= MENTOR DELETE =================
         else if (curr === "Mentor") {
-
             await axios.post(
-                "http://localhost:3000/edit/removeMentor",
+                `${API_URL}/edit/removeMentor`,
                 { id },
                 {
                     withCredentials: true,
@@ -132,7 +154,6 @@ export const handleDeleteMember = async (
         }
 
         fetchAgain();
-
     } catch (error) {
         console.log(error);
     }
@@ -143,14 +164,11 @@ export const handleDeleteContent = async (
     curr,
     refreshUsers
 ) => {
-
     try {
-
         // ================= EVENT DELETE =================
         if (curr === "Events") {
-
             await axios.post(
-                "http://localhost:3000/edit/removeEvent",
+                `${API_URL}/edit/removeEvent`,
                 { id },
                 {
                     withCredentials: true,
@@ -160,9 +178,8 @@ export const handleDeleteContent = async (
 
         // ================= PROJECT DELETE =================
         else if (curr === "Projects") {
-
             await axios.post(
-                "http://localhost:3000/edit/removeProject",
+                `${API_URL}/edit/removeProject`,
                 { id },
                 {
                     withCredentials: true,
@@ -171,9 +188,7 @@ export const handleDeleteContent = async (
         }
 
         refreshUsers();
-
     } catch (error) {
-
         console.log(error);
     }
 };
@@ -188,10 +203,9 @@ export const handleAddMember = async ({
     setTotalPages,
     setOpenAddModal,
     setFormData,
-    fetchUsers
+    fetchUsers,
 }) => {
     try {
-
         setSubmitLoading(true);
 
         const data = new FormData();
@@ -204,7 +218,7 @@ export const handleAddMember = async ({
             data.append("post", formData.post);
 
             await axios.post(
-                "http://localhost:3000/edit/addCoreTeamMember",
+                `${API_URL}/edit/addCoreTeamMember`,
                 data,
                 {
                     withCredentials: true,
@@ -217,7 +231,7 @@ export const handleAddMember = async ({
             data.append("description", formData.description);
 
             await axios.post(
-                "http://localhost:3000/edit/addMentor",
+                `${API_URL}/edit/addMentor`,
                 data,
                 {
                     withCredentials: true,
