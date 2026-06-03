@@ -2,6 +2,8 @@
 
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchApplications = async ({
     page,
     limit,
@@ -17,7 +19,7 @@ export const fetchApplications = async ({
         setLoading(true);
         setError("");
 
-        let url = `http://localhost:3000/mod/application?page=${page}&limit=${limit}`;
+        let url = `${API_URL}/mod/application?page=${page}&limit=${limit}`;
 
         url += `&status=${encodeURIComponent(curr)}`;
 
@@ -60,12 +62,16 @@ export const fetchApplications = async ({
     }
 };
 
-export const handleStateChange = async (status, applicationId, setLoading) => {
+export const handleStateChange = async (
+    status,
+    applicationId,
+    setLoading
+) => {
     try {
         setLoading(status);
 
         const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/edit/application`,
+            `${API_URL}/edit/application`,
             { id: applicationId, status },
             { withCredentials: true }
         );
@@ -74,7 +80,10 @@ export const handleStateChange = async (status, applicationId, setLoading) => {
         window.location.reload();
     } catch (error) {
         console.error(error);
-        alert(error?.response?.data?.message || "Failed To Update Application");
+        alert(
+            error?.response?.data?.message ||
+            "Failed To Update Application"
+        );
     } finally {
         setLoading("");
     }
