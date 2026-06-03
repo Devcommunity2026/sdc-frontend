@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../config/api.js";
 
 import AdminLayout from "../../components/admin/AdminLayout";
 
@@ -72,7 +73,7 @@ const TeamForm = () => {
             );
 
             const res = await axios.post(
-                `http://localhost:3000/edit/addCoreTeamMember`,
+                `${API_URL}/edit/addCoreTeamMember`,
                 sendData,
                 {
                     withCredentials: true,

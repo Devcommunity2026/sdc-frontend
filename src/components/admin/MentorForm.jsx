@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../config/api.js";
 
 import AdminLayout from "../../components/admin/AdminLayout";
 
@@ -72,7 +73,7 @@ const MentorForm = () => {
             );
 
             const res = await axios.post(
-                `http://localhost:3000/edit/addMentor`,
+                `${API_URL}/edit/addMentor`,
                 sendData,
                 {
                     withCredentials: true,

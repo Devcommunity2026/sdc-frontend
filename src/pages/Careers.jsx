@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config/api.js";
 import { motion } from "framer-motion";
 import { CheckCircle, Send } from "lucide-react";
 
@@ -44,7 +45,7 @@ const Careers = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:3000/public/apply",
+        `${API_URL}/public/apply`,
         form
       );
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "../../config/api.js";
 
 export const fetchUsers = async (
     setLoading,
@@ -25,7 +26,7 @@ export const fetchUsers = async (
         else if (curr === "Events") {
 
             res = await axios.get(
-                "http://localhost:3000/mod/event?page=1&limit=20",
+                `${API_URL}/mod/event?page=1&limit=20`,
                 {
                     withCredentials: true
                 }
@@ -39,7 +40,7 @@ export const fetchUsers = async (
         else if (curr === "Projects") {
 
             res = await axios.get(
-                "http://localhost:3000/mod/project?page=1&limit=20", 
+                `${API_URL}/mod/project?page=1&limit=20`, 
                 {
                     withCredentials: true
                 }
@@ -64,7 +65,7 @@ export const handleRoleChange = async (id, role) => {
         console.log("Change Role:", id, role);
 
         // await axios.patch(
-        //     `http://localhost:3000/mod/change-role/${id}`,
+        //     `${API_URL}/mod/change-role/${id}`,
         //     { role },
         //     { withCredentials: true }
         // );
@@ -82,7 +83,7 @@ export const handleBanUser = async (id) => {
         console.log("Ban User:", id);
 
         // await axios.patch(
-        //     `http://localhost:3000/mod/ban-user/${id}`,
+        //     `${API_URL}/mod/ban-user/${id}`,
         //     {},
         //     { withCredentials: true }
         // );
@@ -107,7 +108,7 @@ export const handleDeleteMember = async (
         if (curr === "Team") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeCoreTeamMember",
+                `${API_URL}/edit/removeCoreTeamMember`,
                 { id },
                 {
                     withCredentials: true,
@@ -119,7 +120,7 @@ export const handleDeleteMember = async (
         else if (curr === "Mentor") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeMentor",
+                `${API_URL}/edit/removeMentor`,
                 { id },
                 {
                     withCredentials: true,
@@ -145,7 +146,7 @@ export const handleDeleteContent = async (
         if (curr === "Events") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeEvent",
+                `${API_URL}/edit/removeEvent`,
                 { id },
                 {
                     withCredentials: true,
@@ -157,7 +158,7 @@ export const handleDeleteContent = async (
         else if (curr === "Projects") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeProject",
+                `${API_URL}/edit/removeProject`,
                 { id },
                 {
                     withCredentials: true,
