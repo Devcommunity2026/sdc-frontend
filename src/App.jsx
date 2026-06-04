@@ -21,7 +21,7 @@ import UserDashboard from "./pages/admin/UserDashboard";
 import ApplicationDashboard from "./pages/admin/ApplicationDashboard";
 import ContentDashboard from "./pages/admin/ContentDashboard";
 import SettingDashboard from "./pages/admin/SettingDashboard";
-
+import Root from "./pages/workspace/root";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 
@@ -31,9 +31,7 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <>
-
             <Routes>
-
               {/* Public Pages */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -48,6 +46,7 @@ function App() {
               <Route path="/admin/content" element={<ContentDashboard />} />
               <Route path="/admin/application" element={<ApplicationDashboard />} />
               <Route path="/admin/settings" element={<SettingDashboard />} />
+              <Route path="/workspace/" element={<Root />} />
 
               {/* Public Auth Pages */}
               <Route
