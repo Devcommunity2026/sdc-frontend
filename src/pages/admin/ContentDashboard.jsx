@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchContent, handleRoleChange, handleBanUser, deleteContent, addEvent, addProject } from "../../controllers/admin/contentmanager";
-import {
-    Shield,
-    ShieldCheck,
-    Ban,
-    MoreVertical,
-} from "lucide-react";
+import { fetchContent, deleteContent, addEvent, addProject } from "../../controllers/admin/contentmanager";
 
 import ContentRow from "../../components/admin/contentRow";
 
@@ -13,7 +7,7 @@ import AdminLayout from "../../components/admin/AdminLayout";
 import Paginator from "../../components/ui/Paginator";
 
 
-const UserDashboard = () => {
+const ContentDashboard = () => {
 
     // ================= CONTENT TYPES =================
     const contentType = ["Blogs", "Events", "Projects"];
@@ -21,7 +15,7 @@ const UserDashboard = () => {
     const [curr, setCurr] = useState("Blogs");
 
     // ================= STATES =================
-    const [users, setUsers] = useState([]);
+    const [content, setContent] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [page, setPage] = useState(1);
@@ -48,7 +42,7 @@ const UserDashboard = () => {
 
         // BLOGS EMPTY FOR NOW
         if (curr === "Blogs") {
-            setUsers([]);
+            setContent([]);
             return;
         }
 
@@ -56,28 +50,28 @@ const UserDashboard = () => {
             setLoading,
             page,
             curr,
-            setUsers,
+            setContent,
             setTotalPages
         );
 
     }, [page, curr]);
 
     // ================= REFRESH =================
-    const refreshUsers = () => {
+    const refreshContent = () => {
 
         fetchContent(
             setLoading,
             page,
             curr,
-            setUsers,
+            setContent,
             setTotalPages
         );
     };
 
     // ================= ADD CONTENT =================
-    const handleAddMember = async () => {
+    const handleAddContent = async () => {
         const onSuccess = () => {
-            refreshUsers();
+            refreshContent();
             setOpenAddModal(false);
             setFormData({
                 name: "",
@@ -146,29 +140,28 @@ const UserDashboard = () => {
                     {/* ================= LOADING ================= */}
                     {loading ? (
                         <div className="py-14 text-center text-muted-foreground dark:text-dark-muted-foreground">
-                            Loading users...
+                            Loading {curr}...
                         </div>
-                    ) : users.length === 0 ? (
+                    ) : content.length === 0 ? (
 
                         /* ================= EMPTY ================= */
                         <div className="py-14 text-center text-muted-foreground dark:text-dark-muted-foreground">
-                            No Users Found
+                            No {curr} Found
                         </div>
 
                     ) : (
 
                         /* ================= DATA ================= */
-                        users.map((user, index) => (
+                        content.map((item, index) => (
                             <ContentRow
                                 key={index}
-                                user={user}
+                                item={item}
                                 index={index}
                                 curr={curr}
                                 openMenu={openMenu}
                                 setOpenMenu={setOpenMenu}
-                                handleRoleChange={handleRoleChange}
                                 handleDeleteContent={(id, curr, refreshFn) => deleteContent(id, curr, refreshFn)}
-                                refreshUsers={refreshUsers}
+                                refreshContent={refreshContent}
                             />
                         ))
                     )}
@@ -335,7 +328,7 @@ const UserDashboard = () => {
 
                         {/* SUBMIT */}
                         <button
-                            onClick={handleAddMember}
+                            onClick={handleAddContent}
                             className="w-full py-3 rounded-xl bg-primary text-white font-medium"
                         >
                             Add {curr}
@@ -347,4 +340,4 @@ const UserDashboard = () => {
     );
 };
 
-export default UserDashboard;
+export default ContentDashboard;
