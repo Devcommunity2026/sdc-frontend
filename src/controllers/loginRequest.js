@@ -20,3 +20,27 @@ export const handelLogin = async (e, email, password) => {
         alert(err.response?.data?.message || "Login failed");
     }
 };
+
+export const checkLogin = () => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+};
+
+export const handleLogout = async (setIsLoggedIn, setIsOpen, navigate) => {
+    try {
+        const res = await axios.post(
+            `${API_URL}/auth/logout`,
+            {},
+            { withCredentials: true }
+        );
+        if (res.data.success) {
+            localStorage.removeItem("isLoggedIn");
+            setIsLoggedIn(false);
+            setIsOpen(false);
+            navigate("/login");
+        } else {
+            alert("Logout failed");
+        }
+    } catch (err) {
+        alert(err.response?.data?.message || "Logout failed");
+    }
+};
