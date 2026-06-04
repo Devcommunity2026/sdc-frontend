@@ -26,10 +26,10 @@ const Navbar = () => {
 
   // Update navbar instantly when login/logout happens
   useEffect(() => {
-    window.addEventListener("storage", checkLogin);
-    checkLogin();
+    window.addEventListener("storage", () => checkLogin(setIsLoggedIn));
+    checkLogin(setIsLoggedIn);
     return () => {
-      window.removeEventListener("storage", checkLogin);
+      window.removeEventListener("storage", () => checkLogin(setIsLoggedIn));
     };
   }, []);
 
@@ -146,7 +146,7 @@ const Navbar = () => {
                 {isLoggedIn ? (
                   <button
                     type="button"
-                    onClick={handleLogout}
+                    onClick={() => handleLogout(setIsLoggedIn, setIsOpen, navigate)}
                     className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
                   >
                     Logout
@@ -154,7 +154,7 @@ const Navbar = () => {
                 ) : (
                   <button
                     type="button"
-                    onClick={handleLogin}
+                    onClick={() => handleLogin(setIsLoggedIn)}
                     className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
                   >
                     Login

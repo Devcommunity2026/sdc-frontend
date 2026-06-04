@@ -21,7 +21,7 @@ export const handelLogin = async (e, email, password) => {
     }
 };
 
-export const checkLogin = () => {
+export const checkLogin = (setIsLoggedIn) => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
 };
 
