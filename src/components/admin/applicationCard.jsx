@@ -6,10 +6,10 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import axios from "axios";
 
 const statusColors = {
-    Applied: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300",
-    "On Hold": "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300",
-    Selected: "bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300",
-    Rejected: "bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300",
+    Applied: "bg-info/10 text-info dark:bg-dark-info/20 dark:text-dark-info",
+    "On Hold": "bg-warning/10 text-warning dark:bg-dark-warning/20 dark:text-dark-warning",
+    Selected: "bg-success/10 text-success dark:bg-dark-success/20 dark:text-dark-success",
+    Rejected: "bg-danger/10 text-danger dark:bg-dark-danger/20 dark:text-dark-danger",
 };
 
 const ApplicationCard = ({ application, curr }) => {
@@ -137,7 +137,7 @@ const ApplicationCard = ({ application, curr }) => {
                     <button
                         disabled={loading != ""}
                         onClick={() => handleStateChange("Selected", application, setLoading)}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-success hover:bg-success-hover text-success-foreground dark:bg-dark-success dark:hover:bg-dark-success-hover text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading == "Selected" ? <Loader2 size={18} className="animate-spin" /> : <CheckCircle2 size={18} />}
                         {loading == "Selected" ? "Updating..." : "Accept"}
@@ -149,7 +149,7 @@ const ApplicationCard = ({ application, curr }) => {
                     <button
                         disabled={loading != ""}
                         onClick={() => handleStateChange("On Hold", application, setLoading)}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-warning hover:bg-warning-hover text-warning-foreground dark:bg-dark-warning dark:hover:bg-dark-warning-hover text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading == "On Hold" ? <Loader2 size={18} className="animate-spin" /> : <Clock3 size={18} />}
                         {loading == "On Hold" ? "Updating..." : "On Hold"}
@@ -161,7 +161,7 @@ const ApplicationCard = ({ application, curr }) => {
                     <button
                         disabled={loading != ""}
                         onClick={() => handleStateChange("Rejected", application, setLoading)}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-danger hover:bg-danger-hover text-danger-foreground dark:bg-dark-danger dark:hover:bg-dark-danger-hover text-sm font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading == "Rejected" ? <Loader2 size={18} className="animate-spin" /> : <XCircle size={18} />}
                         {loading == "Rejected" ? "Updating..." : "Reject"}

@@ -16,7 +16,6 @@ import Projects from "./pages/Projects";
 import Events from "./pages/Events";
 import Register from "./pages/Register";
 import Verify from "./pages/Verify";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserDashboard from "./pages/admin/UserDashboard";
 import ApplicationDashboard from "./pages/admin/ApplicationDashboard";
 import ContentDashboard from "./pages/admin/ContentDashboard";
@@ -24,6 +23,8 @@ import SettingDashboard from "./pages/admin/SettingDashboard";
 import Root from "./pages/workspace/root";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import SecureRoute from "./components/SecureRoute";
+import NoAccess from "./components/NoAccess";
 
 function App() {
   return (
@@ -41,11 +42,16 @@ function App() {
               <Route path="/careers" element={<Careers />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/events" element={<Events />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/user" element={<UserDashboard />} />
-              <Route path="/admin/content" element={<ContentDashboard />} />
-              <Route path="/admin/application" element={<ApplicationDashboard />} />
-              <Route path="/admin/settings" element={<SettingDashboard />} />
+              <Route path="/pageNotFound" element={<NoAccess />} />
+              <Route path="/admin/user" element={
+                <SecureRoute>
+                  < UserDashboard />
+                </SecureRoute >
+              } />
+              <Route path="/admin/content" element={<SecureRoute><ContentDashboard /></SecureRoute>} />
+              <Route path="/admin/application" element={<SecureRoute><ApplicationDashboard /></SecureRoute>} />
+              <Route path="/admin/settings" element={<SecureRoute><SettingDashboard /></SecureRoute>} />
+              <Route path="/admin/user/settings" element={<SecureRoute><SettingDashboard /></SecureRoute>} />
               <Route path="/workspace/" element={<Root />} />
 
               {/* Public Auth Pages */}

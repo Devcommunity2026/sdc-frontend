@@ -147,7 +147,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={() => handleLogout(setIsLoggedIn, setIsOpen, navigate)}
-                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-bold"
                   >
                     Logout
                   </button>
@@ -155,7 +155,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={() => handleLogin(setIsLoggedIn)}
-                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-bold"
                   >
                     Login
                   </button>

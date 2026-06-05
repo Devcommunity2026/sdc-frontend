@@ -49,6 +49,35 @@
   --color-border: hsl(220 13% 87%);
   --color-input: hsl(220 13% 87%);
   --color-ring: hsl(255 70% 55%);
+
+  /* ================= UTILITY COLORS ================= */
+  --color-success: hsl(142 76% 45%);
+  --color-success-hover: hsl(142 76% 36%);
+  --color-success-foreground: hsl(0 0% 100%);
+  --color-dark-success: hsl(142 70% 35%);
+  --color-dark-success-hover: hsl(142 70% 28%);
+  --color-dark-success-foreground: hsl(0 0% 100%);
+
+  --color-danger: hsl(0 84% 60%);
+  --color-danger-hover: hsl(0 84% 50%);
+  --color-danger-foreground: hsl(0 0% 100%);
+  --color-dark-danger: hsl(0 72% 40%);
+  --color-dark-danger-hover: hsl(0 72% 32%);
+  --color-dark-danger-foreground: hsl(0 0% 100%);
+
+  --color-warning: hsl(38 92% 50%);
+  --color-warning-hover: hsl(38 92% 40%);
+  --color-warning-foreground: hsl(0 0% 100%);
+  --color-dark-warning: hsl(38 80% 38%);
+  --color-dark-warning-hover: hsl(38 80% 30%);
+  --color-dark-warning-foreground: hsl(0 0% 100%);
+
+  --color-info: hsl(200 95% 48%);
+  --color-info-hover: hsl(200 95% 38%);
+  --color-info-foreground: hsl(0 0% 100%);
+  --color-dark-info: hsl(200 80% 36%);
+  --color-dark-info-hover: hsl(200 80% 28%);
+  --color-dark-info-foreground: hsl(0 0% 100%);
 }
 
 /* Login Page Styles */
