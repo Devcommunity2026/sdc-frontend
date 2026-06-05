@@ -32,10 +32,6 @@ export const adminNav = [
     path: "/admin/application",
     icon: ClipboardList,
   },
-  {
-    name: "Settings",
-    path: "/admin/settings",
-    icon: Settings,
-  },
+ 
 ];
 export default navData;

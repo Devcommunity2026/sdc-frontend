@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -27,16 +28,18 @@ const Footer = () => {
           </p>
         </div>
 
-        <button
+        <Link
+          to="/careers"
           className="
             px-5 py-2 rounded-full text-sm font-semibold transition-all
             bg-primary text-primary-foreground
             hover:opacity-90
             dark:bg-dark-primary dark:text-dark-primary-foreground
+            inline-block w-fit
           "
         >
-          Get Started ↗
-        </button>
+          Get Started
+        </Link>
       </div>
 
       {/* MAIN GRID */}
@@ -69,20 +72,26 @@ const Footer = () => {
           <h4 className="mb-3 font-semibold text-foreground dark:text-dark-foreground">
             Quick Links
           </h4>
-          {["About", "Domains", "Events", "Projects", "Blogs", "Career"].map(
-            (item) => (
-              <p
-                key={item}
-                className="
-                  text-sm my-1 cursor-pointer transition-colors
-                  text-muted-foreground hover:text-primary
-                  dark:text-dark-muted-foreground dark:hover:text-dark-primary
-                "
-              >
-                {item}
-              </p>
-            )
-          )}
+          {[
+            { name: "About", path: "/about" },
+            { name: "Domains", path: "/domains" },
+            { name: "Events", path: "/events" },
+            { name: "Projects", path: "/projects" },
+            { name: "Blogs", path: "/blog" },
+            { name: "Careers", path: "/careers" },
+          ].map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className="
+                block text-sm my-1 cursor-pointer transition-colors
+                text-muted-foreground hover:text-primary
+                dark:text-dark-muted-foreground dark:hover:text-dark-primary
+              "
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
 
         {/* DOMAINS */}
@@ -97,16 +106,17 @@ const Footer = () => {
             "Mobile Development",
             "Open Source",
           ].map((item) => (
-            <p
+            <Link
               key={item}
+              to="/domains"
               className="
-                text-sm my-1 transition-colors
+                block text-sm my-1 transition-colors
                 text-muted-foreground hover:text-primary
                 dark:text-dark-muted-foreground dark:hover:text-dark-primary
               "
             >
               • {item}
-            </p>
+            </Link>
           ))}
         </div>
 
@@ -115,15 +125,23 @@ const Footer = () => {
           <h4 className="mb-3 font-semibold text-foreground dark:text-dark-foreground">
             Get in Touch
           </h4>
-          <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
+          <a
+            href="mailto:dev.community@medicaps.ac.in"
+            className="block text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground hover:text-primary dark:hover:text-dark-primary transition-colors"
+          >
             📧 dev.community@medicaps.ac.in
-          </p>
+          </a>
           <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
             📍 Medi-Caps University, Indore
           </p>
-          <p className="text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground">
+          <a
+            href="https://medicaps.ac.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-sm my-1 text-muted-foreground dark:text-dark-muted-foreground hover:text-primary dark:hover:text-dark-primary transition-colors"
+          >
             🌐 medicaps.ac.in
-          </p>
+          </a>
         </div>
       </div>
 

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchUsers = async (
     setLoading,
     page,
@@ -17,36 +19,43 @@ export const fetchUsers = async (
         // ================= BLOGS =================
         if (curr === "Blogs") {
 
-            setUsers([]);
-            setTotalPages(1);
+            res = await axios.get(
+                `${API_URL}/mod/blog?page=${page}&limit=10`,
+                {
+                    withCredentials: true
+                }
+            );
+
+            setUsers(res.data.data || []);
+            setTotalPages(res.data.pagination?.totalPages || 1);
         }
 
         // ================= EVENTS =================
         else if (curr === "Events") {
 
             res = await axios.get(
-                "http://localhost:3000/mod/event?page=1&limit=20",
+                `${API_URL}/mod/event?page=${page}&limit=10`,
                 {
                     withCredentials: true
                 }
             );
 
             setUsers(res.data.data || []);
-            setTotalPages(1);
+            setTotalPages(res.data.pagination?.totalPages || 1);
         }
 
         // ================= PROJECTS =================
         else if (curr === "Projects") {
 
             res = await axios.get(
-                "http://localhost:3000/mod/project?page=1&limit=20", 
+                `${API_URL}/mod/project?page=${page}&limit=10`, 
                 {
                     withCredentials: true
                 }
             );
 
             setUsers(res.data.data || []);
-            setTotalPages(1);
+            setTotalPages(res.data.pagination?.totalPages || 1);
         }
 
     } catch (error) {
@@ -63,14 +72,11 @@ export const handleRoleChange = async (id, role) => {
     try {
         console.log("Change Role:", id, role);
 
-        // await axios.patch(
-        //     `http://localhost:3000/mod/change-role/${id}`,
-        //     { role },
+        // await axios.post(
+        //     `${API_URL}/admin/editRole`,
+        //     { role, id },
         //     { withCredentials: true }
         // );
-
-        setOpenMenu(null);
-        fetchUsers();
 
     } catch (error) {
         console.log(error);
@@ -82,13 +88,10 @@ export const handleBanUser = async (id) => {
         console.log("Ban User:", id);
 
         // await axios.patch(
-        //     `http://localhost:3000/mod/ban-user/${id}`,
+        //     `${API_URL}/mod/ban-user/${id}`,
         //     {},
         //     { withCredentials: true }
         // );
-
-        setOpenMenu(null);
-        fetchUsers();
 
     } catch (error) {
         console.log(error);
@@ -107,7 +110,7 @@ export const handleDeleteMember = async (
         if (curr === "Team") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeCoreTeamMember",
+                `${API_URL}/edit/removeCoreTeamMember`,
                 { id },
                 {
                     withCredentials: true,
@@ -119,7 +122,7 @@ export const handleDeleteMember = async (
         else if (curr === "Mentor") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeMentor",
+                `${API_URL}/edit/removeMentor`,
                 { id },
                 {
                     withCredentials: true,
@@ -133,6 +136,7 @@ export const handleDeleteMember = async (
         console.log(error);
     }
 };
+
 export const handleDeleteContent = async (
     id,
     curr,
@@ -145,7 +149,7 @@ export const handleDeleteContent = async (
         if (curr === "Events") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeEvent",
+                `${API_URL}/edit/removeEvent`,
                 { id },
                 {
                     withCredentials: true,
@@ -157,7 +161,19 @@ export const handleDeleteContent = async (
         else if (curr === "Projects") {
 
             await axios.post(
-                "http://localhost:3000/edit/removeProject",
+                `${API_URL}/edit/removeProject`,
+                { id },
+                {
+                    withCredentials: true,
+                }
+            );
+        }
+
+        // ================= BLOG DELETE =================
+        else if (curr === "Blogs") {
+
+            await axios.post(
+                `${API_URL}/edit/removeBlog`,
                 { id },
                 {
                     withCredentials: true,

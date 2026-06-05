@@ -72,7 +72,7 @@ const TeamForm = () => {
             );
 
             const res = await axios.post(
-                `http://localhost:3000/edit/addCoreTeamMember`,
+                `${import.meta.env.VITE_API_URL}/edit/addCoreTeamMember`,
                 sendData,
                 {
                     withCredentials: true,

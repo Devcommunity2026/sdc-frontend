@@ -71,3 +71,22 @@ export const fetchPeopleData = async (setLoading, setTeamMembers, setMentors) =>
         setLoading(false);
     }
 };
+
+export const fetchBlogs = async (currentPage, limit, setBlogs, setTotalPages, setLoading) => {
+    try {
+        setLoading(true);
+
+        const res = await axios.get(
+            `${import.meta.env.VITE_API_URL}/public/blog?page=${currentPage}&limit=${limit}`
+        );
+
+        if (res.data.success) {
+            setBlogs(res.data.data);
+            setTotalPages(res.data.pagination.totalPages);
+        }
+    } catch (error) {
+        console.error("Failed to fetch blogs", error);
+    } finally {
+        setLoading(false);
+    }
+};

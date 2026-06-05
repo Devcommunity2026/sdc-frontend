@@ -1,117 +1,37 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { CheckCircle, Send } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
 
 import Layout from "../components/Layout";
-import Button from "../components/ui/Button";
 import Header from "../components/Header";
-import { applicationDomain } from "../data/mockData";
-
-const initialForm = {
-  name: "",
-  email: "",
-  phone: "",
-  college: "",
-  branch: "",
-  year: "",
-  skills: "",
-  github: "",
-  linkedin: "",
-  domain: "",
-  motivation: "",
-  resume: "",
-};
+import CareersForm from "../components/careers/CareersForm";
+import CareersSuccess from "../components/careers/CareersSuccess";
+import { useCareersForm } from "../hooks/useCareersForm";
 
 const Careers = () => {
-  const [form, setForm] = useState(initialForm);
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(true);
+  const [statusLoading, setStatusLoading] = useState(true);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const { form, loading, submitted, handleChange, handleSubmit } = useCareersForm();
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const response = await axios.post(
-        "http://localhost:3000/public/apply",
-        form
-      );
-
-      if (response.data.success) {
-        setSubmitted(true);
-        setForm(initialForm);
+  useEffect(() => {
+    const fetchRegistrationStatus = async () => {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL;
+        const res = await axios.get(`${API_URL}/api/admin/registration/status`);
+        if (res.data.success) {
+          setRegistrationOpen(res.data.registrationOpen);
+        }
+      } catch (error) {
+        console.error("Failed to fetch registration status:", error);
+      } finally {
+        setStatusLoading(false);
       }
+    };
 
-    } catch (error) {
-      console.log(error);
-
-      alert(
-        error?.response?.data?.message ||
-        "Unable To Submit Application"
-      );
-
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const inputClass = `
-    w-full rounded-xl px-4 py-3 text-sm transition-all outline-none
-    bg-background text-foreground placeholder:text-muted-foreground
-    border border-border
-    focus:ring-2 focus:ring-primary/30 focus:border-primary
-    dark:bg-dark-background
-    dark:text-dark-foreground
-    dark:placeholder:text-dark-muted-foreground
-    dark:border-dark-border
-    dark:focus:ring-dark-primary/30
-    dark:focus:border-dark-primary
-  `;
-
-  const labelClass = `
-    block mb-2 font-medium text-sm
-    text-foreground dark:text-dark-foreground
-  `;
-
-  if (submitted) {
-    return (
-      <Layout>
-        <section className="min-h-[80vh] flex items-center justify-center bg-background dark:bg-dark-background px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center max-w-md w-full rounded-3xl p-10 border bg-card border-border dark:bg-dark-card dark:border-dark-border"
-          >
-            <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-primary dark:bg-dark-primary">
-              <CheckCircle
-                size={40}
-                className="text-primary-foreground dark:text-dark-primary-foreground"
-              />
-            </div>
-
-            <h2 className="text-3xl font-bold mb-3 text-foreground dark:text-dark-foreground">
-              Application Submitted!
-            </h2>
-
-            <p className="text-muted-foreground dark:text-dark-muted-foreground">
-              Your application has been submitted successfully.
-            </p>
-          </motion.div>
-        </section>
-      </Layout>
-    );
-  }
+    fetchRegistrationStatus();
+  }, []);
 
   return (
     <Layout>
@@ -121,221 +41,44 @@ const Careers = () => {
         subtext="Fill out the application form below and become part of our developer community."
       />
 
-      <section className="py-16 bg-muted dark:bg-dark-secondary">
-        <div className="container mx-auto px-4 max-w-3xl">
-
-          <motion.form
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            onSubmit={handleSubmit}
-            className="rounded-3xl p-6 md:p-10 space-y-6 border shadow-sm bg-card border-border dark:bg-dark-card dark:border-dark-border"
+      {statusLoading ? (
+        <div className="flex flex-col items-center justify-center py-20 bg-muted dark:bg-dark-secondary min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary dark:border-dark-primary"></div>
+          <p className="mt-4 text-muted-foreground dark:text-dark-muted-foreground font-medium">
+            Checking registration status...
+          </p>
+        </div>
+      ) : !registrationOpen ? (
+        <section className="py-20 bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground min-h-[50vh] flex items-center justify-center px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center max-w-lg w-full rounded-3xl p-10 border bg-card border-border dark:bg-dark-card dark:border-dark-border shadow-xl space-y-6"
           >
+            <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center bg-primary/10 text-primary dark:bg-dark-primary/20 dark:text-dark-primary">
+              <ShieldAlert size={32} />
+            </div>
 
-            <div>
-              <h2 className="text-3xl font-bold text-foreground dark:text-dark-foreground">
-                Application Form
+            <div className="space-y-2">
+              <h2 className="text-2xl font-extrabold text-foreground dark:text-dark-foreground">
+                Registration Closed
               </h2>
-
-              <p className="mt-2 text-sm text-muted-foreground dark:text-dark-muted-foreground">
-                Fill in your details carefully before submitting.
+              <p className="text-base text-muted-foreground dark:text-dark-muted-foreground leading-relaxed">
+                Registrations are currently closed.
               </p>
             </div>
-
-            <div className="grid sm:grid-cols-2 gap-5">
-
-              <div>
-                <label className={labelClass}>Full Name *</label>
-
-                <input
-                  name="name"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="John Doe"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Email *</label>
-
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="john@email.com"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Phone *</label>
-
-                <input
-                  name="phone"
-                  type="tel"
-                  required
-                  value={form.phone}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="+91 9876543210"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>College *</label>
-
-                <input
-                  name="college"
-                  required
-                  value={form.college}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="College Name"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Branch *</label>
-
-                <input
-                  name="branch"
-                  required
-                  value={form.branch}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="CSE / IT / ECE"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>Year *</label>
-
-                <select
-                  name="year"
-                  required
-                  value={form.year}
-                  onChange={handleChange}
-                  className={inputClass}
-                >
-                  <option value="">Select Year</option>
-                  <option value="1">1st Year</option>
-                  <option value="2">2nd Year</option>
-                  <option value="3">3rd Year</option>
-                  <option value="4">4th Year</option>
-                </select>
-              </div>
-
-            </div>
-
-            <div>
-              <label className={labelClass}>Technical Skills *</label>
-
-              <input
-                name="skills"
-                required
-                value={form.skills}
-                onChange={handleChange}
-                className={inputClass}
-                placeholder="React, Python, Java"
-              />
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-5">
-
-              <div>
-                <label className={labelClass}>GitHub Profile</label>
-
-                <input
-                  name="github"
-                  value={form.github}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="https://github.com/username"
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>LinkedIn Profile</label>
-
-                <input
-                  name="linkedin"
-                  value={form.linkedin}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="https://linkedin.com/in/username"
-                />
-              </div>
-
-            </div>
-
-            <div>
-              <label className={labelClass}>Resume Link *</label>
-
-              <input
-                type="url"
-                name="resume"
-                required
-                value={form.resume}
-                onChange={handleChange}
-                className={inputClass}
-                placeholder="https://drive.google.com/..."
-              />
-            </div>
-
-            <div>
-              <label className={labelClass}>Domain Interested In *</label>
-
-              <select
-                name="domain"
-                required
-                value={form.domain}
-                onChange={handleChange}
-                className={inputClass}
-              >
-                <option value="">Select Domain</option>
-
-                {applicationDomain.map((element,index) => (
-                  <option key={index} value={element}>
-                    {element }
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className={labelClass}>
-                Why do you want to join? *
-              </label>
-
-              <textarea
-                name="motivation"
-                required
-                value={form.motivation}
-                onChange={handleChange}
-                rows={5}
-                className={`${inputClass} resize-none`}
-                placeholder="Tell us about your motivation..."
-              />
-            </div>
-
-            <Button
-              type="submit"
-              size="lg"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2"
-            >
-              <Send size={16} />
-              {loading ? "Submitting..." : "Submit Application"}
-            </Button>
-
-          </motion.form>
-
-        </div>
-      </section>
+          </motion.div>
+        </section>
+      ) : submitted ? (
+        <CareersSuccess />
+      ) : (
+        <CareersForm
+          form={form}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          loading={loading}
+        />
+      )}
     </Layout>
   );
 };

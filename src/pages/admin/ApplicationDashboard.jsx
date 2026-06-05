@@ -11,8 +11,14 @@ import ApplicationCard from "../../components/admin/applicationCard";
 import TableHeader from "../../components/TableHeader";
 
 const ApplicationDashboard = () => {
+    // ================= FILTER OPTIONS =================
+    const tabs = ["Applied", "On Hold", "Rejected", "Selected"];
+
     // ================= STATE =================
-    const [curr, setCurr] = useState("Applied");
+    const [curr, setCurr] = useState(() => {
+        const saved = localStorage.getItem("admin_app_slider");
+        return tabs.includes(saved) ? saved : "Applied";
+    });
     const [domain, setDomain] = useState("All Domains");
 
     const [applications, setApplications] = useState([]);
@@ -27,8 +33,9 @@ const ApplicationDashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalApplications, setTotalApplications] = useState(0);
 
-    // ================= FILTER OPTIONS =================
-    const tabs = ["Applied", "On Hold", "Rejected", "Selected"];
+    useEffect(() => {
+        localStorage.setItem("admin_app_slider", curr);
+    }, [curr]);
 
     const domainOptions = [
         "All Domains",
@@ -37,8 +44,6 @@ const ApplicationDashboard = () => {
         "Cybersecurity",
         "Mobile App Development",
     ];
-
-    // ================= FETCH APPLICATIONS =================
 
 
     // ================= FETCH ON CHANGE =================

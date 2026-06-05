@@ -18,10 +18,17 @@ const UserDashboard = () => {
 
     const userType = ["All", "Team", "Mentor"];
 
-    const [curr, setCurr] = useState("All");
+    const [curr, setCurr] = useState(() => {
+        const saved = localStorage.getItem("admin_user_slider");
+        return userType.includes(saved) ? saved : "All";
+    });
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem("admin_user_slider", curr);
+    }, [curr]);
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);

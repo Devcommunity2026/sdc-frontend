@@ -7,7 +7,7 @@ import logo from "../assets/logo.png";
 import { themeContext } from "../contexts/ThemeProvider";
 import Button from "./ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { handleLogout, checkLogin } from "../controllers/loginRequest";
 const Navbar = () => {
   const location = useLocation();
   const isAuthPage =
@@ -26,26 +26,13 @@ const Navbar = () => {
 
   // Update navbar instantly when login/logout happens
   useEffect(() => {
-    const checkLogin = () => {
-      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    };
-
-    window.addEventListener("storage", checkLogin);
-
-    checkLogin();
-
+    window.addEventListener("storage", () => checkLogin(setIsLoggedIn));
+    checkLogin(setIsLoggedIn);
     return () => {
-      window.removeEventListener("storage", checkLogin);
+      window.removeEventListener("storage", () => checkLogin(setIsLoggedIn));
     };
   }, []);
 
-  // Logout
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-    setIsOpen(false);
-    navigate("/login");
-  };
 
   // Login
   const handleLogin = () => {
@@ -72,7 +59,7 @@ const Navbar = () => {
       />
 
       {/* Desktop Links */}
-      <div className="hidden md:flex gap-2">
+      <div className="hidden lg:flex gap-2">
         {navData.map((item) => (
           <Link
             key={item.name}
@@ -90,7 +77,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Actions */}
-      <div className="hidden md:flex items-center gap-4">
+      <div className="hidden lg:flex items-center gap-4">
 
         {/* Theme Toggle */}
         <button
@@ -102,7 +89,7 @@ const Navbar = () => {
 
         {/* Login / Logout */}
         {isLoggedIn ? (
-          <Button onClick={handleLogout}>Logout</Button>
+          <Button onClick={() => handleLogout(setIsLoggedIn, setIsOpen, navigate)}>Logout</Button>
         ) : (
           <Button onClick={handleLogin}>Login</Button>
         )}
@@ -110,7 +97,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Button */}
       <div
-        className="md:hidden cursor-pointer"
+        className="lg:hidden cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Menu />
@@ -125,7 +112,7 @@ const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             className="absolute top-20 left-0 w-full bg-background dark:bg-dark-background shadow-lg"
           >
-            <div className="px-4 py-4 space-y-2">
+            <div className="px-4 py-4 space-y-2 text-sm">
 
               {navData.map((item) => (
                 <Link
@@ -159,16 +146,16 @@ const Navbar = () => {
                 {isLoggedIn ? (
                   <button
                     type="button"
-                    onClick={handleLogout}
-                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                    onClick={() => handleLogout(setIsLoggedIn, setIsOpen, navigate)}
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-bold"
                   >
                     Logout
                   </button>
                 ) : (
                   <button
                     type="button"
-                    onClick={handleLogin}
-                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-white text-sm font-bold"
+                    onClick={() => handleLogin(setIsLoggedIn)}
+                    className="flex-1 px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-bold"
                   >
                     Login
                   </button>
