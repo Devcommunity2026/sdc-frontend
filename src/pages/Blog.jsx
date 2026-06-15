@@ -91,17 +91,7 @@ function Blogs() {
       />
 
       <div className="px-6 py-12 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground dark:text-dark-foreground flex items-center gap-3">
-              <BookOpen className="text-primary dark:text-dark-primary" size={32} />
-              Recent Articles
-            </h1>
-            <p className="text-muted-foreground dark:text-dark-muted-foreground mt-1">
-              Explore resources written by core members and mentors.
-            </p>
-          </div>
-        </div>
+       
 
         {loading ? (
           <Loader label={"Loading Blogs..."}/>
