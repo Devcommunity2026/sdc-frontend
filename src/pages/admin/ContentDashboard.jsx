@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchUsers, handleDeleteContent } from "../../controllers/admin/contentDashboard";
-import AdminLayout from "../../components/admin/AdminLayout";
+import AdminLayout from "../../components/admin/adminLayout";
 import ContentRow from "../../components/admin/ContentRow";
 import ContentAddModal from "../../components/admin/ContentAddModal";
 import ContentEditModal from "../../components/admin/ContentEditModal";

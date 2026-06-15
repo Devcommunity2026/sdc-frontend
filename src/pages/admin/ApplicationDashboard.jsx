@@ -6,7 +6,7 @@ import Paginator from "../../components/ui/Paginator";
 import DropDown from "../../components/ui/DropDown";
 
 import { fetchApplications } from "../../controllers/admin/ApplicationDashBoard";
-import AdminLayout from "../../components/admin/AdminLayout";
+import AdminLayout from "../../components/admin/adminLayout";
 import ApplicationCard from "../../components/admin/applicationCard";
 import TableHeader from "../../components/TableHeader";
 

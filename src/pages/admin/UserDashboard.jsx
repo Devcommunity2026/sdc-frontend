@@ -4,7 +4,7 @@ import {
     handleRoleChange,
 } from "../../controllers/admin/userDashboard";
 import Loader from "../../components/Loader";
-import Slider from "../../components/admin/Slider";
+import Slider from "../../components/admin/slider";
 import UserAdd from "../../components/admin/userAdd";
 import UserEditModal from "../../components/admin/UserEditModal";
 import UserRow from "../../components/admin/userRow";
@@ -13,7 +13,7 @@ import TableHeader from "../../components/TableHeader";
 
 import { Shield, ShieldCheck, Ban, MoreVertical, } from "lucide-react";
 
-import AdminLayout from "../../components/admin/AdminLayout";
+import AdminLayout from "../../components/admin/adminLayout";
 
 const UserDashboard = () => {
 
