@@ -107,7 +107,7 @@ const UserRow = ({
                                                 setTotalPages
                                             )
                                         }
-                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition"
+                                        className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition z-50"
                                     >
                                         <ShieldCheck size={16} />
                                         Make Moderator

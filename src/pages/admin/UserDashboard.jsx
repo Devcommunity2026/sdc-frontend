@@ -3,7 +3,7 @@ import {
     fetchUsers,
     handleRoleChange,
 } from "../../controllers/admin/userDashboard";
-
+import Loader from "../../components/Loader";
 import Slider from "../../components/admin/Slider";
 import UserAdd from "../../components/admin/userAdd";
 import UserRow from "../../components/admin/userRow";
@@ -81,14 +81,15 @@ const UserDashboard = () => {
 
                 {/* ================= TABLE ================= */}
                 <div
-                    className="w-full rounded-2xl overflow-hidden border border-border dark:border-dark-border bg-card
-                    dark:bg-dark-card shadow-sm "
+                    className="w-full rounded-2xl  border border-border dark:border-dark-border bg-card
+                    dark:bg-dark-card shadow-sm  "
                 >
 
                     {/* ================= LOADING ================= */}
                     {loading ? (
                         <div className="py-14 text-center text-muted-foreground dark:text-dark-muted-foreground">
-                            Loading users...
+                            <Loader lable={"Loading users..."} />
+
                         </div>
                     ) : users.length === 0 ? (
 
