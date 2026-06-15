@@ -58,6 +58,7 @@ export const fetchPeopleData = async (setLoading, setTeamMembers, setMentors) =>
 
         // Team
         if (teamRes.data.success) {
+    
             setTeamMembers(teamRes.data.data);
         }
 

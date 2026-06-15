@@ -11,11 +11,6 @@ export const fetchHomeData = async ({
             axios.get(`${import.meta.env.VITE_API_URL}/public/mentor?page=1&limit=3`),
             axios.get(`${import.meta.env.VITE_API_URL}/public/stats`),
         ]);
-        console.log(`${import.meta.env.VITE_API_URL}/public/event?page=1&limit=3`)
-        console.log("Events:", eventsRes.data);
-        console.log("Mentors:", mentorsRes.data);
-        console.log("Stats:", statsRes.data);
-
 
         if (eventsRes.data.success) {
             setEvents(eventsRes.data.data);

@@ -83,7 +83,6 @@ const MentorForm = () => {
                 }
             );
 
-            console.log(res.data);
 
             alert("Mentor Added");
 

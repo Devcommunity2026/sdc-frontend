@@ -83,7 +83,6 @@ const TeamForm = () => {
                 }
             );
 
-            console.log(res.data);
 
             alert("Team Member Added");
 

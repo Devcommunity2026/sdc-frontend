@@ -23,7 +23,6 @@ export const fetchUsers = async (
                 }
             );
 
-            console.log(res.data);
             setUsers(res.data.data || []);
             setTotalPages(res.data.pagination?.totalPages || 1);
         }
@@ -82,7 +81,6 @@ export const handleRoleChange = async (
             }
         );
 
-        console.log("res", res);
 
         if (!res.data.success) {
             alert(res.data.message);
@@ -108,7 +106,6 @@ export const handleBanUser = async (
     refreshUsers
 ) => {
     try {
-        console.log("Ban User:", id);
 
         await axios.patch(
             `${API_URL}/mod/ban-user/${id}`,

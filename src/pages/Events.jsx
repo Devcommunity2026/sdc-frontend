@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import Loader from "../components/Loader";
 import EventCard from "../components/ui/EventCard";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
@@ -29,11 +30,13 @@ const Events = () => {
         subtext={""}
       />
 
-      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {loading ? (
-          <p>Loading Events...</p>
-        ) : events.length > 0 ? (
-          events.map((event, index) => (
+      {loading ? (
+        <div className="w-full flex items-center justify-center py-12">
+          <Loader label="Loading Events..." />
+        </div>
+      ) : events.length > 0 ? (
+        <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {events.map((event, index) => (
             <EventCard
               key={event._id}
               event={{
@@ -42,17 +45,20 @@ const Events = () => {
               }}
               index={index}
             />
-          ))
-        ) : (
-          <p>No Events Found</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="w-full flex items-center justify-center py-12">
+          <p className="text-gray-400">No Events Found</p>
+        </div>
+      )}
 
-      {/* Pagination */}
-      {totalPages > 1 && <Paginator page={page} setPage={setPage} totalPages={totalPages} />}
-
+      {totalPages > 1 && (
+        <Paginator page={page} setPage={setPage} totalPages={totalPages} />
+      )}
     </Layout>
   );
+
 };
 
 export default Events;

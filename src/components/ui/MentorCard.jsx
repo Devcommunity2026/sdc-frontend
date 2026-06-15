@@ -18,12 +18,13 @@ const MentorCard = ({ mentor, index }) => {
         dark:bg-dark-card dark:text-dark-card-foreground dark:border-dark-border
       "
     >
+
       {/* Card Content */}
       <div className="px-5 pt-8 pb-6 text-center">
         {/* Profile Image */}
         <div className="relative w-fit mx-auto mb-4">
           <img
-            src={mentor.profileImage}
+            src={mentor.image}
             alt={mentor.name}
             className="
               w-24 h-24 rounded-full object-cover
@@ -35,7 +36,7 @@ const MentorCard = ({ mentor, index }) => {
 
           {/* LinkedIn Button */}
           <a
-            href={mentor.linkedIn}
+            href={mentor.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -79,7 +80,7 @@ const MentorCard = ({ mentor, index }) => {
             dark:text-dark-muted-foreground
           "
         >
-          {mentor.roleDescription}
+          {mentor.description}
         </p>
       </div>
     </motion.div>

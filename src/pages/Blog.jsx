@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Layout from '../components/Layout';
+import Loader from '../components/Loader';
 import BlogCard from "../components/ui/BlogCard";
 import { fetchBlogs } from "../controllers/detailsRequest";
 import { AnimatePresence, motion } from "framer-motion";
@@ -103,10 +104,7 @@ function Blogs() {
         </div>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary dark:border-dark-primary"></div>
-            <p className="mt-4 text-muted-foreground dark:text-dark-muted-foreground font-medium">Fetching the latest articles...</p>
-          </div>
+          <Loader label={"Loading Blogs..."}/>
         ) : displayBlogs.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
             <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center bg-muted dark:bg-dark-muted text-muted-foreground dark:text-dark-muted-foreground">

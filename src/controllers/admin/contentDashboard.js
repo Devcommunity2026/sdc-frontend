@@ -85,13 +85,12 @@ export const handleRoleChange = async (id, role) => {
 
 export const handleBanUser = async (id) => {
     try {
-        console.log("Ban User:", id);
 
-        // await axios.patch(
-        //     `${API_URL}/mod/ban-user/${id}`,
-        //     {},
-        //     { withCredentials: true }
-        // );
+        await axios.patch(
+            `${API_URL}/mod/ban-user/${id}`,
+            {},
+            { withCredentials: true }
+        );
 
     } catch (error) {
         console.log(error);

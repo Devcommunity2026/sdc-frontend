@@ -29,7 +29,6 @@ const SecureRoute = ({ children }) => {
     useEffect(() => {
         const verifyAccess = async () => {
             const hasAccess = await checkAccess();
-            console.log(hasAccess);
         };
 
         verifyAccess();

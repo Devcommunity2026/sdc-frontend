@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 
+import Loader from "../components/Loader";
 import TeamCard from "../components/ui/TeamCard";
 import MentorCard from "../components/ui/MentorCard";
 import Layout from "../components/Layout";
@@ -78,22 +79,15 @@ const Team = () => {
 
           {/* Mentor Cards */}
           {loading ? (
-            <div className="text-center text-white text-lg">
-              Loading Mentors...
-            </div>
+            <Loader label="Loading mentors..." />
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {
-                mentors.map((mentor, i) => (
-                  <MentorCard
-                    key={mentor._id}
-                    mentor={mentor}
-                    index={i}
-                  />
-                ))
-              }
+              {mentors.map((mentor, i) => (
+                <MentorCard key={mentor._id} mentor={mentor} index={i} />
+              ))}
             </div>
           )}
+
         </div>
       </section>
 
@@ -141,20 +135,15 @@ const Team = () => {
 
           {/* Team Cards */}
           {loading ? (
-            <div className="text-center text-lg">
-              Loading Team...
-            </div>
+            <Loader label="Loading team..." />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {teamMembers.map((member, i) => (
-                <TeamCard
-                  key={member._id}
-                  member={member}
-                  index={i}
-                />
+                <TeamCard key={member._id} member={member} index={i} />
               ))}
             </div>
           )}
+
         </div>
       </section>
 

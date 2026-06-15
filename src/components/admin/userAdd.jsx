@@ -105,9 +105,6 @@ const UserAdd = ({
                     type="file"
                     accept="image/*"
                     onChange={(e) => {
-
-                        console.log(e.target.files[0]);
-
                         setFormData({
                             ...formData,
                             image: e.target.files[0],
