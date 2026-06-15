@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
 
         <Link
-          to="/careers"
+          to="/admin/user"
           className="
             px-5 py-2 rounded-full text-sm font-semibold transition-all
             bg-primary text-primary-foreground
@@ -38,7 +38,7 @@ const Footer = () => {
             inline-block w-fit
           "
         >
-          Get Started
+          Admin
         </Link>
       </div>
 
