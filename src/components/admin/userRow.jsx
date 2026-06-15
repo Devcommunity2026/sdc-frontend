@@ -3,7 +3,8 @@ import {
     MoreVertical,
     Shield,
     ShieldCheck,
-    Ban
+    Ban,
+    Edit
 } from 'lucide-react'
 import { handleRoleChange, handleDeleteMember } from '../../controllers/admin/userDashboard'
 const UserRow = ({
@@ -17,6 +18,7 @@ const UserRow = ({
     setUsers,
     setTotalPages,
     refreshUsers,
+    onEditClick
 }) => {
     return (
         <div
@@ -135,6 +137,20 @@ const UserRow = ({
                                     </button>
                                 )}
                             </>
+                        )}
+
+                        {/* EDIT MEMBER */}
+                        {curr !== "All" && (
+                            <button
+                                onClick={() => {
+                                    setOpenMenu(null);
+                                    onEditClick(user);
+                                }}
+                                className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition border-b border-border dark:border-dark-border"
+                            >
+                                <Edit size={16} />
+                                Edit {curr === "Team" ? "Team Member" : curr}
+                            </button>
                         )}
 
                         {/* DELETE MEMBER */}

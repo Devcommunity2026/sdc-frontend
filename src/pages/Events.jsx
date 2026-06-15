@@ -25,9 +25,9 @@ const Events = () => {
   return (
     <Layout>
       <Header
-        heading1={"Upcoming "}
+        heading1={""}
         heading2={"Events"}
-        subtext={""}
+        subtext={"Stay updated with our events"}
       />
 
       {loading ? (

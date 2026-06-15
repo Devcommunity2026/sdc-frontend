@@ -3,6 +3,7 @@ import { fetchUsers, handleDeleteContent } from "../../controllers/admin/content
 import AdminLayout from "../../components/admin/AdminLayout";
 import ContentRow from "../../components/admin/ContentRow";
 import ContentAddModal from "../../components/admin/ContentAddModal";
+import ContentEditModal from "../../components/admin/ContentEditModal";
 import Paginator from "../../components/ui/Paginator";
 
 const ContentDashboard = () => {
@@ -20,6 +21,8 @@ const ContentDashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [openMenu, setOpenMenu] = useState(null);
     const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editingItem, setEditingItem] = useState(null);
 
     useEffect(() => {
         localStorage.setItem("admin_content_slider", curr);
@@ -126,6 +129,10 @@ const ContentDashboard = () => {
                                     setOpenMenu={setOpenMenu}
                                     handleDeleteContent={handleDeleteContent}
                                     refreshUsers={refreshUsers}
+                                    onEditClick={(selectedItem) => {
+                                        setEditingItem(selectedItem);
+                                        setOpenEditModal(true);
+                                    }}
                                 />
                             ))}
                         </>
@@ -149,6 +156,20 @@ const ContentDashboard = () => {
                     curr={curr}
                     setOpenAddModal={setOpenAddModal}
                     refreshUsers={refreshUsers}
+                />
+            )}
+
+            {/* ================= EDIT MODAL ================= */}
+            {openEditModal && editingItem && (
+                <ContentEditModal
+                    curr={curr}
+                    content={editingItem}
+                    setOpenEditModal={setOpenEditModal}
+                    page={page}
+                    setUsers={setContents}
+                    setTotalPages={setTotalPages}
+                    setLoading={setLoading}
+                    fetchUsers={fetchUsers}
                 />
             )}
         </AdminLayout>

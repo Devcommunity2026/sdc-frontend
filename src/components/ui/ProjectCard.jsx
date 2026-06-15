@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
+
 
 const ProjectCard = ({ project, index }) => {
     return (
@@ -75,22 +75,6 @@ const ProjectCard = ({ project, index }) => {
 
                 {/* Buttons */}
                 <div className="flex items-center gap-3">
-                    {/* GitHub */}
-                    <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="
-    inline-flex items-center gap-2
-    px-4 py-2 rounded-xl border
-    border-border dark:border-dark-border
-    hover:bg-secondary dark:hover:bg-dark-secondary
-    transition-all text-sm font-medium
-  "
-                    >
-                        <FaGithub size={18} />
-                        GitHub
-                    </a>
 
                     {/* Live Demo */}
                     <a

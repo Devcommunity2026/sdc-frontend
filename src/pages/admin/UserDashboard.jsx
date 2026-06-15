@@ -6,6 +6,7 @@ import {
 import Loader from "../../components/Loader";
 import Slider from "../../components/admin/Slider";
 import UserAdd from "../../components/admin/userAdd";
+import UserEditModal from "../../components/admin/UserEditModal";
 import UserRow from "../../components/admin/userRow";
 import Paginator from "../../components/ui/Paginator";
 import TableHeader from "../../components/TableHeader";
@@ -35,6 +36,8 @@ const UserDashboard = () => {
 
     const [openMenu, setOpenMenu] = useState(null);
     const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
 
     const tableHeaders = ["Name", "Email", "Status", "Actions"]
 
@@ -142,6 +145,10 @@ const UserDashboard = () => {
                                         setUsers={setUsers}
                                         setTotalPages={setTotalPages}
                                         refreshUsers={refreshUsers}
+                                        onEditClick={(selectedUser) => {
+                                            setEditingUser(selectedUser);
+                                            setOpenEditModal(true);
+                                        }}
                                     />
                                 ))
                             }
@@ -167,6 +174,20 @@ const UserDashboard = () => {
                     page={page}
                     setUsers={setUsers}
                     setTotalPages={setTotalPages}
+                    fetchUsers={fetchUsers}
+                />
+            )}
+
+            {/* ================= EDIT MODAL ================= */}
+            {openEditModal && editingUser && (
+                <UserEditModal
+                    curr={curr}
+                    user={editingUser}
+                    setOpenEditModal={setOpenEditModal}
+                    page={page}
+                    setUsers={setUsers}
+                    setTotalPages={setTotalPages}
+                    setLoading={setLoading}
                     fetchUsers={fetchUsers}
                 />
             )}

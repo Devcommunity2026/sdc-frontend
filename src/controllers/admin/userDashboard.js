@@ -262,3 +262,61 @@ export const handleAddMember = async ({
         setSubmitLoading(false);
     }
 };
+
+export const handleEditMember = async ({
+    id,
+    formData,
+    curr,
+    setSubmitLoading,
+    setLoading,
+    page,
+    setUsers,
+    setTotalPages,
+    setOpenEditModal,
+    fetchUsers,
+}) => {
+    try {
+        setSubmitLoading(true);
+        const data = new FormData();
+        data.append("id", id);
+        data.append("name", formData.name);
+        data.append("linkedin", formData.linkedin);
+        if (formData.image) {
+            data.append("image", formData.image);
+        }
+
+        if (curr === "Team") {
+            data.append("post", formData.post);
+
+            await axios.post(`${API_URL}/edit/editCoreTeamMember`, data, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        } else if (curr === "Mentor") {
+            data.append("description", formData.description);
+
+            await axios.post(`${API_URL}/edit/editMentor`, data, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        }
+
+        await fetchUsers(
+            setLoading,
+            page,
+            curr,
+            setUsers,
+            setTotalPages
+        );
+        setOpenEditModal(false);
+    } catch (error) {
+        console.error(error);
+        alert(error.response?.data?.message || "Failed to edit member");
+    } finally {
+        setSubmitLoading(false);
+    }
+};

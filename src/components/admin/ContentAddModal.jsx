@@ -9,7 +9,6 @@ const ContentAddModal = ({ curr, setOpenAddModal, refreshUsers }) => {
         name: "",
         subHeading: "",
         description: "",
-        github: "",
         live: "",
         form: "",
         date: "",
@@ -76,7 +75,6 @@ const ContentAddModal = ({ curr, setOpenAddModal, refreshUsers }) => {
             // ================= PROJECTS =================
             else if (curr === "Projects") {
                 data.append("subHeading", formData.subHeading);
-                data.append("github", formData.github);
                 data.append("live", formData.live);
                 data.append(
                     "techStack",
@@ -313,24 +311,7 @@ const ContentAddModal = ({ curr, setOpenAddModal, refreshUsers }) => {
                     {/* PROJECTS SPECIFIC */}
                     {curr === "Projects" && (
                         <>
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-muted-foreground dark:text-dark-muted-foreground">
-                                    GitHub URL *
-                                </label>
-                                <input
-                                    type="url"
-                                    required
-                                    placeholder="https://github.com/..."
-                                    value={formData.github}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            github: e.target.value,
-                                        })
-                                    }
-                                    className="w-full px-4 py-2.5 rounded-xl border border-border dark:border-dark-border bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground outline-none text-sm"
-                                />
-                            </div>
+
 
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold text-muted-foreground dark:text-dark-muted-foreground">

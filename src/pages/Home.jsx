@@ -194,7 +194,6 @@ const Home = () => {
             badge="Stay Updated"
             title={
               <>
-                Upcoming{" "}
                 <span className="text-primary dark:text-dark-primary">
                   Events
                 </span>

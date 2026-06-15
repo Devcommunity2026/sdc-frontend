@@ -187,3 +187,74 @@ export const handleDeleteContent = async (
         console.log(error);
     }
 };
+
+export const handleEditContent = async ({
+    id,
+    formData,
+    curr,
+    setSubmitLoading,
+    setLoading,
+    page,
+    setUsers,
+    setTotalPages,
+    setOpenEditModal,
+    fetchUsers,
+}) => {
+    try {
+        setSubmitLoading(true);
+        const data = new FormData();
+        data.append("id", id);
+        data.append("name", formData.name);
+        data.append("description", formData.description);
+        if (formData.image) {
+            data.append("image", formData.image);
+        }
+
+        if (curr === "Events") {
+            data.append("subHeading", formData.subHeading);
+            data.append("date", formData.date);
+            data.append("form", formData.form);
+
+            await axios.post(`${API_URL}/edit/editEvent`, data, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        } else if (curr === "Projects") {
+            data.append("subHeading", formData.subHeading);
+            data.append("live", formData.live);
+            data.append(
+                "techStack",
+                Array.isArray(formData.techStack)
+                    ? JSON.stringify(formData.techStack)
+                    : JSON.stringify(
+                        formData.techStack
+                            .split(",")
+                            .map((item) => item.trim())
+                      )
+            );
+
+            await axios.post(`${API_URL}/edit/editProject`, data, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        }
+
+        await fetchUsers(
+            setLoading,
+            page,
+            curr,
+            setUsers,
+            setTotalPages
+        );
+        setOpenEditModal(false);
+    } catch (error) {
+        console.error(error);
+        alert(error.response?.data?.message || "Failed to edit content");
+    } finally {
+        setSubmitLoading(false);
+    }
+};

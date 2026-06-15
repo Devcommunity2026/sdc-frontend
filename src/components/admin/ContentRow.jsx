@@ -1,5 +1,5 @@
 import React from "react";
-import { MoreVertical, Ban } from "lucide-react";
+import { MoreVertical, Ban, Edit } from "lucide-react";
 
 const ContentRow = ({
     user,
@@ -7,7 +7,8 @@ const ContentRow = ({
     openMenu,
     setOpenMenu,
     handleDeleteContent,
-    refreshUsers
+    refreshUsers,
+    onEditClick
 }) => {
     return (
         <div
@@ -48,6 +49,20 @@ const ContentRow = ({
                 {/* DROPDOWN */}
                 {openMenu === user._id && (
                     <div className="absolute top-14 right-5 z-50 w-52 rounded-xl border border-border dark:border-dark-border bg-card dark:bg-dark-card shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+                        {/* EDIT CONTENT */}
+                        {(curr === "Events" || curr === "Projects") && (
+                            <button
+                                onClick={() => {
+                                    setOpenMenu(null);
+                                    onEditClick(user);
+                                }}
+                                className="w-full px-4 py-3 flex items-center gap-3 text-sm text-foreground dark:text-dark-foreground hover:bg-muted dark:hover:bg-dark-muted transition cursor-pointer text-left border-b border-border dark:border-dark-border"
+                            >
+                                <Edit size={16} />
+                                Edit {curr === "Events" ? "Event" : "Project"}
+                            </button>
+                        )}
+
                         {/* DELETE CONTENT */}
                         <button
                             onClick={() => {
